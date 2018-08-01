@@ -1,0 +1,290 @@
+<!-- index.wpy -->
+<style>
+  page {
+    background-color: #f8f8f8;
+    height: 100%;
+  }
+  .list {
+    padding: 20rpx;
+  }
+  .list .number {
+    padding: 0 0 10rpx 0;
+    font-size: 30rpx;
+    color: orange;
+  }
+  .list .time {
+    padding: 0 0 0 100rpx;
+    font-size: 28rpx;
+  }
+  .list .bottom {
+    font-size: 28rpx;
+    padding: 10rpx 0 0rpx 0;
+  }
+  .list .bottom:after {
+    content: '.';
+    opacity: 0;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    clear: both;
+  }
+  .list .bottom .duration {
+    float: right;
+    
+  }
+  .list .bottom .fee {
+    float: right;
+    margin-left: 30rpx;
+  }
+  .duration .line {
+    clear: both;
+  }
+  .line {
+    text-decoration: underline;
+  }
+  .now {
+    padding: 20rpx;
+  }
+  .now .header {
+    font-size: 25rpx;
+  }
+  .now .header.status .title {
+    color: green;
+  }
+  .now .header.status .title {
+    color: green;
+  }
+  .now .header.status {
+    float: left;
+  }
+  .now .header.time {
+    float: right;
+  }
+  .now .header .content {
+
+  }
+  .now .message {
+    text-align: right;
+    padding: 0 0 0 50rpx;
+    clear: both;
+  }
+  .history_title {
+    font-size: 27rpx;
+    line-height: 27rpx;
+    padding: 20rpx 0 0 0;
+  }
+</style>
+<template>
+  <view class="wrap">
+    <!-- 进行中订单开始 -->
+    <wxc-panel>
+      <view class="now">
+        <!-- 标题 -->
+        <view class="header status">
+          <text class="title">进行中：</text>
+          <text class="content">02005021号商品</text>
+        </view>
+        <!-- 开始时间 -->
+        <view class="header time">
+          <text class="title">开始时间：</text>
+          <text class="content">2018年3月5日9时</text>
+        </view>
+        <!-- 订单详情 -->
+        <view class="message">
+          <wxc-input type="order_sn" title="计时" value="2天01小时7分"></wxc-input>
+          <wxc-input type="price" title="计费" value="57元"></wxc-input>
+          <wxc-input type="user" title="剩余时长" value="1天09小时22分"></wxc-input>
+        </view>
+      </view>
+    </wxc-panel>
+    <!-- 进行中订单结束 -->
+    <!-- 订单列表开始 -->
+    <!-- 标题开始 -->
+    <wxc-cc>
+      <view class="history_title">
+        历史订单
+      </view>
+    </wxc-cc>
+    <!-- 标题结束 -->
+    <wxc-panel>
+      <view class="list">
+        <view class="number">
+          <text>02005021号商品</text>
+        </view>
+        <view class="time">
+          <text>起止时间：</text><text>2018年3月5日9时~3月7日20时</text>
+        </view>
+        <view class="bottom">
+          <view class="fee">
+            <text>费用：</text><text class="line">57元</text>
+          </view>
+          <view class="duration">
+            <text>用时：</text><text class="line">2天01小时7分</text>
+          </view>
+        </view>
+      </view>
+    </wxc-panel>
+    <wxc-panel>
+      <view class="list">
+        <view class="number">
+          <text>02005021号商品</text>
+        </view>
+        <view class="time">
+          <text>起止时间：</text><text>2018年3月5日9时~3月7日20时</text>
+        </view>
+        <view class="bottom">
+          <view class="fee">
+            <text>费用：</text><text class="line">57元</text>
+          </view>
+          <view class="duration">
+            <text>用时：</text><text class="line">2天01小时7分</text>
+          </view>
+        </view>
+      </view>
+    </wxc-panel>
+    <wxc-panel>
+      <view class="list">
+        <view class="number">
+          <text>02005021号商品</text>
+        </view>
+        <view class="time">
+          <text>起止时间：</text><text>2018年3月5日9时~3月7日20时</text>
+        </view>
+        <view class="bottom">
+          <view class="fee">
+            <text>费用：</text><text class="line">57元</text>
+          </view>
+          <view class="duration">
+            <text>用时：</text><text class="line">2天01小时7分</text>
+          </view>
+        </view>
+      </view>
+    </wxc-panel>
+    <wxc-panel>
+      <view class="list">
+        <view class="number">
+          <text>02005021号商品</text>
+        </view>
+        <view class="time">
+          <text>起止时间：</text><text>2018年3月5日9时~3月7日20时</text>
+        </view>
+        <view class="bottom">
+          <view class="fee">
+            <text>费用：</text><text class="line">57元</text>
+          </view>
+          <view class="duration">
+            <text>用时：</text><text class="line">2天01小时7分</text>
+          </view>
+        </view>
+      </view>
+    </wxc-panel>
+    <wxc-panel>
+      <view class="list">
+        <view class="number">
+          <text>02005021号商品</text>
+        </view>
+        <view class="time">
+          <text>起止时间：</text><text>2018年3月5日9时~3月7日20时</text>
+        </view>
+        <view class="bottom">
+          <view class="fee">
+            <text>费用：</text><text class="line">57元</text>
+          </view>
+          <view class="duration">
+            <text>用时：</text><text class="line">2天01小时7分</text>
+          </view>
+        </view>
+      </view>
+    </wxc-panel>
+    <wxc-panel>
+      <view class="list">
+        <view class="number">
+          <text>02005021号商品</text>
+        </view>
+        <view class="time">
+          <text>起止时间：</text><text>2018年3月5日9时~3月7日20时</text>
+        </view>
+        <view class="bottom">
+          <view class="fee">
+            <text>费用：</text><text class="line">57元</text>
+          </view>
+          <view class="duration">
+            <text>用时：</text><text class="line">2天01小时7分</text>
+          </view>
+        </view>
+      </view>
+    </wxc-panel>
+    <wxc-panel>
+      <view class="list">
+        <view class="number">
+          <text>02005021号商品</text>
+        </view>
+        <view class="time">
+          <text>起止时间：</text><text>2018年3月5日9时~3月7日20时</text>
+        </view>
+        <view class="bottom">
+          <view class="fee">
+            <text>费用：</text><text class="line">57元</text>
+          </view>
+          <view class="duration">
+            <text>用时：</text><text class="line">2天01小时7分</text>
+          </view>
+        </view>
+      </view>
+    </wxc-panel>
+    <wxc-panel>
+      <view class="list">
+        <view class="number">
+          <text>02005021号商品</text>
+        </view>
+        <view class="time">
+          <text>起止时间：</text><text>2018年3月5日9时~3月7日20时</text>
+        </view>
+        <view class="bottom">
+          <view class="fee">
+            <text>费用：</text><text class="line">57元</text>
+          </view>
+          <view class="duration">
+            <text>用时：</text><text class="line">2天01小时7分</text>
+          </view>
+        </view>
+      </view>
+    </wxc-panel>
+    <!-- 订单列表结束 -->
+  </view>
+  <!-- 个人资料结束 -->
+  <wxc-loadmore is-end="{{true}}" text="没有更多内容" icon="{{true}}"></wxc-loadmore>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '我的订单',
+      usingComponents: {
+        'wxc-panel': '../../packages/@minui/wxc-panel/dist/index',
+        'wxc-input': '../../packages/@minui/wxc-input/dist/index',
+        'wxc-cc': '../../packages/@minui/wxc-cc/dist/index',
+        'wxc-loadmore': '../../packages/@minui/wxc-loadmore/dist/index'
+      }
+    }
+    components = {}
+
+    mixins = []
+
+    data = {
+
+    }
+
+    computed = {}
+
+    methods = {
+
+    }
+
+    events = {}
+
+    onLoad() {}
+  }
+</script>

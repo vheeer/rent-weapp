@@ -1,0 +1,107 @@
+<!-- index.wpy -->
+<style lang="less">
+.upload {
+  .title {
+    padding: 25rpx;
+    font-size: 33rpx;
+  }
+  .file {
+    background-color: #eee;
+    .file_box {
+      height: 473rpx;
+    }
+    .empty {
+      padding: 100rpx;
+    }
+  }
+}
+.start {
+  margin: 40rpx 20rpx 40rpx 20rpx;
+  border-radius: 200rpx;
+  width: 80%;
+  overflow: hidden;
+}
+.start wxc-button button {
+  width: 100%;
+}
+</style>
+<template>
+  <view class="wrap">
+    <!-- 上传正面 -->
+    <wxc-panel>
+      <view class="upload positive">
+        <wxc-cc>
+          <view class="title">请上传您身份证正面</view>
+        </wxc-cc>
+        <view class="file" >
+          <!-- 已上传 -->
+          <view wx:if="{{1}}" class="file_box full" bindtap="changePositive">
+            <image mode="aspectFit" src="https://test-1256171234.cos.ap-beijing.myqcloud.com/timg%20(1).jpg" />
+          </view>
+          <!-- 未上传 -->
+          <view wx:if="{{0}}" class="file_box empty" bindtap="changePositive">
+            <image mode="aspectFit" src="https://test-1256171234.cos.ap-beijing.myqcloud.com/add.png" />
+          </view>
+        </view>
+      </view>
+    </wxc-panel>
+    <!-- 上传反面 -->
+    <wxc-panel>
+      <view class="upload opposite">
+        <wxc-cc>
+          <view class="title">请上传您身份证反面</view>
+        </wxc-cc>
+        <view class="file" >
+          <!-- 已上传 -->
+          <view wx:if="{{0}}" class="file_box full" bindtap="changePositive">
+            <image mode="aspectFit" src="https://test-1256171234.cos.ap-beijing.myqcloud.com/timg%20(1).jpg" />
+          </view>
+          <!-- 未上传 -->
+          <view wx:if="{{1}}" class="file_box empty" bindtap="changePositive">
+            <image mode="aspectFit" src="https://test-1256171234.cos.ap-beijing.myqcloud.com/add.png" />
+          </view>
+        </view>
+      </view>
+    </wxc-panel>
+  </view>
+  <!-- 操作按钮 -->
+  <wxc-cc>
+    <view class="start">
+      <wxc-button size="large" type="primary">下一步</wxc-button>
+    </view>
+  </wxc-cc>
+  <!-- 操作按钮 -->
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: 'test',
+      usingComponents: {
+        'wxc-loadmore': '../../../packages/@minui/wxc-loadmore/dist/index',
+        'wxc-panel': '../../../packages/@minui/wxc-panel/dist/index',
+        'wxc-button': '../../../packages/@minui/wxc-button/dist/index',
+        'wxc-cc': '../../../packages/@minui/wxc-cc/dist/index'
+      }
+    }
+    components = {}
+
+    mixins = []
+
+    data = {
+
+    }
+
+    computed = {}
+
+    methods = {
+
+    }
+
+    events = {}
+
+    onLoad() {}
+  }
+</script>

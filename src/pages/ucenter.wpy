@@ -1,0 +1,226 @@
+<!-- index.wpy -->
+<style lang="less">
+  .header .wrap {
+    position: absolute;
+    height: 200rpx;
+    z-index: -1;
+    opacity: 0.3;
+  }
+  .user {
+    display: flex;
+    height: 200rpx;
+  }
+  .user .item {
+    
+  }
+  .user .left {
+    flex-grow: 0;
+    width: 200rpx;
+    padding:35rpx;
+    margin:0 0 0 50rpx;
+  }
+  .user .right {
+    flex-grow: 1;
+    padding: 45rpx;
+  }
+  .user .right .info {
+    width: 250rpx;
+  }
+  .user .right .info .nickname {
+    border-bottom: solid 1px #444444;
+    padding: 0 0 10rpx 0;
+  }
+  .user .right .info .mobile {
+    padding: 10rpx 0 0 0;
+  }
+  .avatar_box {
+    width: 100%;
+    height: 100%;
+    border-radius: 999rpx;
+    overflow: hidden;
+  }
+  .desc {
+    font-size: 27rpx;
+    color: #888888;
+  }
+  .position {
+    color: #333333;
+    font-size: 33rpx;
+  }
+  .position .content {
+    padding: 20rpx;
+  }
+  .position text.title {
+    color: #888;
+    font-size: 30rpx;
+    font-weight: bold;
+  }
+  .my {
+
+  }
+  .my .change {
+    position: absolute;
+    right: 0rpx;
+  }
+  .my .title {
+    padding: 23rpx 0 50rpx 0;
+    font-size: 30rpx;
+    line-height: 30rpx;
+  }
+  .needFill {
+    padding: 200rpx 0 0 0;
+    .content {
+      font-size: 32rpx;
+      text-align: center;
+      .fillBtn {
+        button {
+          line-height:46rpx;
+        }
+      }
+    }
+  }
+</style>
+<template>
+  <!-- 头部开始 -->
+  <view class="header">
+    <image mode="aspectFill" class="wrap" src="../static/image/head.jpg" />
+    <!-- 个人资料 -->
+    <wxc-flex class="user">
+      <view class="item left">
+        <wxc-cc>
+          <view class="avatar_box">
+            <image mode="aspectFill" class="avatar" src="../static/image/e99be4dd3309814539632830f84ef81b.png" />
+          </view>
+        </wxc-cc>
+      </view>
+      <view class="item right">
+        <view class="info">
+          <view class="nickname">vheeer</view>
+          <view class="mobile">15022211133</view>
+        </view>
+      </view>
+    </wxc-flex>
+  </view>
+  <!-- 头部结束 -->
+  <!-- 当前店铺开始 -->
+  <view class="shop">
+    <wxc-list
+      class="orders"
+      title="所在城市"
+      src="https://s10.mogucdn.com/mlcdn/c45406/170603_7ida8bdc21j18b91aa2ii3lk38b9i_38x38.png"
+    >
+      <view class="desc">天津 津南</view>
+    </wxc-list>
+    <wxc-list
+      class="orders"
+      title="所在店铺"
+      src="https://s10.mogucdn.com/mlcdn/c45406/170603_7ida8bdc21j18b91aa2ii3lk38b9i_38x38.png"
+    >
+      <view class="desc">津南一号店</view>
+    </wxc-list>
+    <!-- 存放处 -->
+    <view class="position">
+      <wxc-panel>
+        <view class="content">
+          <text class="title">存放位置：</text>天津市河北区金田道1号,金田花园7栋6门302
+        </view>
+      </wxc-panel>
+    </view>
+  </view>
+  <!-- 当前店铺结束 -->
+
+  <!-- 个人资料开始 -->
+  <wxc-panel wx:if="{{1}}" class="my">
+    <!-- 已完善的资料显示开始 -->
+    <!-- 修改按钮 -->
+    <view class="change btn">
+      <wxc-button type="primary" size="small" value="修改" />
+    </view>
+    <!-- 标题 -->
+    <view class="title">
+      <wxc-cc>
+        领取人及患者信息
+      </wxc-cc>
+    </view>
+    <!-- 资料 -->
+    <view class="file">
+      <wxc-cc>
+        <view class="message">
+          <wxc-input type="goods_sn" title="领取人姓名" value="李娜"></wxc-input>
+          <wxc-input type="shop" title="性别" value="男"></wxc-input>
+          <wxc-input type="user" title="联系方式" value="15022211133"></wxc-input>
+          <wxc-input type="rest" title="身份证号" value="130604199307250022"></wxc-input>
+          <wxc-input type="rest" title="患者姓名" value="蒋琴"></wxc-input>
+          <wxc-input type="rest" title="所在病房" value="东十二区6楼303"></wxc-input>
+        </view>
+      </wxc-cc>
+    </view>
+  </wxc-panel>
+  <!-- 已完善的资料显示结束 -->
+  <!-- 提示完善资料开始 -->
+  <view wx:if="{{1}}" class="needFill">
+    <view class="content">
+      您还没有个人资料，请
+      <wxc-button class="fillBtn" type="primary" size="small" plain="true">完善</wxc-button>
+    </view>
+  </view>
+  <!-- 提示完善资料结束 -->
+  <!-- 个人资料结束 -->
+   <wxc-loadmore is-end="{{true}}" text="没有更多内容" icon="{{true}}"></wxc-loadmore>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import testMixin from '../mixins/test'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: 'test',
+      usingComponents: {
+        'wxc-toast': '../../packages/@minui/wxc-toast/dist/index',
+        'wxc-button': '../../packages/@minui/wxc-button/dist/index',
+        'wxc-panel': '../../packages/@minui/wxc-panel/dist/index',
+        'wxc-cc': '../../packages/@minui/wxc-cc/dist/index',
+        'wxc-elip': '../../packages/@minui/wxc-elip/dist/index',
+        'wxc-list': '../../packages/@minui/wxc-list/dist/index',
+        'wxc-loadmore': '../../packages/@minui/wxc-loadmore/dist/index',
+        'wxc-input': '../../packages/@minui/wxc-input/dist/index'
+      }
+    }
+    components = {}
+
+    mixins = [testMixin]
+
+    data = {
+      types: [
+        'beauty', 'selection', 'disabled',
+        'danger', 'success', 'secondary',
+        'primary', 'info', 'dark', 'warning'
+      ],
+      imgUrls: [
+        'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
+        'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
+        'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
+      ],
+      indicatorDots: false,
+      autoplay: false,
+      interval: 5000,
+      duration: 1000,
+      content: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+      line: 3
+    }
+
+    computed = {}
+
+    methods = {
+      showToast() {
+        let $toast = this.$wxpage.selectComponent('.J_toast')
+        $toast && $toast.show()
+      }
+    }
+
+    events = {}
+
+    onLoad() {}
+  }
+</script>

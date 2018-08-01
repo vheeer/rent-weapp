@@ -1,0 +1,93 @@
+<!-- index.wpy -->
+<style lang="less">
+.wrap {
+    .title {
+      background-color: #eeeeee;
+      font-size: 35rpx;
+      text-align: center;
+    }
+    .start {
+      margin: 40rpx 20rpx 40rpx 20rpx;
+      border-radius: 200rpx;
+      width: 80%;
+      overflow: hidden;
+    }
+    .start wxc-button button {
+      width: 100%;
+    }
+  }
+</style>
+<template>
+  <view class="wrap">
+    <!-- 身份资料开始 -->
+    <wxc-panel class="id">
+      <view class="title">身份资料</view>
+      <wxc-cc>
+        <view class="id_box">
+          <view class="message">
+            <wxc-input name="real_name" title="姓名" value="李莉"></wxc-input>
+            <wxc-input name="price" title="性别" value="女"></wxc-input>
+            <wxc-input name="price" title="出生日期" value="1990年1月1日"></wxc-input>
+            <wxc-input name="user" title="居住地" value="津南区咸水沽镇红旗路3号"></wxc-input>
+            <wxc-input name="shop" title="店铺" value="津南一号店"></wxc-input>
+          </view>
+        </view>
+      </wxc-cc>
+    </wxc-panel>
+    <!-- 身份资料结束 -->
+    <!-- 使用者信息开始 -->
+    <wxc-panel class="id">
+      <view class="title">使用者信息</view>
+      <wxc-cc>
+        <view class="id_box">
+          <view class="message">
+            <wxc-input name="real_name" title="姓名" value="李莉"></wxc-input>
+            <wxc-input name="price" title="所在位置" value="二号楼3层302"></wxc-input>
+          </view>
+        </view>
+      </wxc-cc>
+    </wxc-panel>
+    <!-- 使用者信息结束 -->
+    <!-- 开始使用按钮 -->
+    <wxc-cc>
+      <view class="start">
+        <wxc-button size="large" type="primary">开始使用</wxc-button>
+      </view>
+    </wxc-cc>
+  </view>
+
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: 'test',
+      usingComponents: {
+        'wxc-panel': '../../packages/@minui/wxc-panel/dist/index',
+        'wxc-input': '../../packages/@minui/wxc-input/dist/index',
+        'wxc-button': '../../packages/@minui/wxc-button/dist/index',
+        'wxc-cc': '../../packages/@minui/wxc-cc/dist/index'
+      }
+    }
+    components = {}
+
+    mixins = []
+
+    data = {
+
+    }
+
+    computed = {}
+
+    methods = {
+
+    }
+
+    events = {}
+
+    onLoad() {}
+  }
+</script>

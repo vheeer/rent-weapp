@@ -1,0 +1,266 @@
+<!-- index.wpy -->
+<style>
+  wxc-flex {
+    display: flex;
+  }
+  .header {
+    background-color: #FFF79A;
+    height: 250rpx;
+  }
+  .header>.item {
+    font-size: 20rpx;
+    text-align: center;
+    height: 100%;
+  }
+  .header>.left {
+    width: 30%;
+    flex-grow: 0;
+    padding: 50rpx;
+  }
+  .header>.center {
+    width: 40%;
+    flex-grow: 1;
+    font-size: 30rpx;
+    padding:70rpx 0rpx 70rpx 140rpx;
+  }
+  .header>.right {
+    width: 30%;
+    flex-grow: 2;
+    padding: 70rpx;
+  }
+  .header>.item>wxc-cc>wxc-flex {
+    height: 50%;
+  }
+  .avatar {
+
+  }
+  .avatar_box {
+    width: 80rpx;
+    height: 80rpx;
+  }
+  .shop_box {
+    border-bottom: solid 1px #eeeeee;
+  }
+  .shop_box .wrap {
+    display: flex;
+    height: 100rpx;
+  }
+  .shop_box .item {
+    font-size: 20rpx;
+  }
+  .shop_box .item.side {
+    width: 150rpx;
+    flex-grow: 0;
+  }
+  .shop_box .item.main {
+    flex-grow: 1;
+    padding: 0 20rpx 0 20rpx;
+    border-right: solid 1px #eeeeee;
+  }
+  .shop_box .button {
+    border: dashed 1px #555555;
+  }
+  .shop_box .button button {
+    border: none;
+  }  
+  .shop_box .vtitle {
+    font-weight: bold;
+    font-size: 27rpx;
+  }
+  .shop_box .vcontent {
+    font-size: 25rpx;
+    color: #666666;
+  }
+  .shop_box .main {
+    padding: 120rpx 0 0 0;
+  }
+  .shop_box .side wxc-flex {
+    display: block;
+  }
+  .shop_box .side wxc-cc {
+    position: relative;
+    top: 20rpx;
+  }
+  .desc-highlight {
+    font-size: 24rpx;
+    height: 38rpx;
+    padding: 0 22rpx;
+    border: 1px solid #f5342f;
+    border-radius: 20rpx;
+    color: #f5342f;
+    line-height: 38rpx;
+  }
+  .main .status {
+    font-size: 25rpx;
+    padding: 15rpx 0 30rpx 0;
+    color: green;
+  }
+  .main .duration {
+    font-size: 40rpx;
+    padding: 5rpx 0 25rpx 0;
+  }
+  .end {
+    margin: 40rpx 20rpx 40rpx 20rpx;
+    border-radius: 200rpx;
+    width: 80%;
+    overflow: hidden;
+  }
+  .end wxc-button button {
+    width: 100%;
+  }
+</style>
+<template>
+  <!-- 头部开始 -->
+  <wxc-flex class="header">
+    <view class="item left">
+      <!-- 头像 -->
+      <wxc-cc class="avatar">
+        <view class="avatar_box">
+          <image mode="aspectFill" src="../static/image/e99be4dd3309814539632830f84ef81b.png" />
+        </view>
+      </wxc-cc>
+      <wxc-cc>
+        <view class="nickname">
+          昵称
+        </view>
+      </wxc-cc>
+    </view>
+    <view class="item center">
+      <wxc-cc>
+        <wxc-flex class="item deposit">
+            <view class="title">押金：</view><view class="value">200</view>
+        </wxc-flex>
+      </wxc-cc>
+      <wxc-cc>
+        <wxc-flex class="item balance">
+            <view class="title">余额：</view><view class="value">100</view>
+        </wxc-flex>
+      </wxc-cc>
+    </view>
+    <view class="item right">
+      <wxc-cc>
+        <wxc-flex class="item deposit">
+          <wxc-button size="small" type="beauty" value="充值"></wxc-button>
+        </wxc-flex>
+      </wxc-cc>
+      <wxc-cc>
+        <wxc-flex class="item balance">
+          <wxc-button size="small" type="beauty" value="退款"></wxc-button>
+        </wxc-flex>
+      </wxc-cc>
+    </view>
+  </wxc-flex>
+  <!-- 头部结束 -->
+  <!-- 当前店铺开始 -->
+  <view class="shop_box">
+    <wxc-flex class="wrap">
+      <view class="item main">
+        <view class="vtitle">天津红桥医院</view>
+        <view class="vcontent">天津市津南区双港镇北马集村东海天馨苑家福原22号一层</view>
+      </view>
+      <view class="item side">
+          <wxc-cc>
+            <wxc-button class="button" size="small" type="dark" plain="true" value="切换"></wxc-button>
+          </wxc-cc>
+      </view>
+    </wxc-flex>
+  </view>
+  <!-- 当前店铺结束 -->
+  <!-- 历史订单开始 -->
+  <wxc-list
+    class="orders"
+    title="订单中心"
+    src="https://s10.mogucdn.com/mlcdn/c45406/170603_7ida8bdc21j18b91aa2ii3lk38b9i_38x38.png"
+  >
+    <view class="desc-highlight">您有正在进行的订单...</view>    
+  </wxc-list>
+  <!-- 历史订单结束 -->
+  <!-- 主体部分开始 -->
+  <view class="main">
+    <!-- 状态 -->
+    <view class="status">
+      <wxc-cc>
+        正在用车。。。
+      </wxc-cc>
+    </view>
+    <!-- 用时 -->
+    <view class="duration">
+      <wxc-cc>
+        已使用：2小时17分06秒
+      </wxc-cc>
+    </view>
+    <!-- 订单详情 -->
+    <wxc-cc>
+      <view class="message">
+        <wxc-input type="goods_sn" title="商品号" value="03280020369"></wxc-input>
+        <wxc-input type="shop" title="所在店铺" value="津南一号店"></wxc-input>
+        <wxc-input type="user" title="使用者" value="使用者"></wxc-input>
+        <wxc-input type="rest" title="剩余时长" value="3天6小时"></wxc-input>
+      </view>
+    </wxc-cc>
+    <!-- 结束使用 -->
+    <view class="rest">
+      <wxc-cc>
+        <view class="end">
+          <wxc-button size="large" type="primary">结束使用</wxc-button>
+        </view>
+      </wxc-cc>
+    </view>
+  </view>
+  <!-- 主体部分结束 -->
+
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import testMixin from '../mixins/test'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: 'test',
+      usingComponents: {
+        'wxc-button': '../../packages/@minui/wxc-button/dist/index',
+        'wxc-panel': '../../packages/@minui/wxc-panel/dist/index',
+        'wxc-input': '../../packages/@minui/wxc-input/dist/index',
+        'wxc-list': '../../packages/@minui/wxc-list/dist/index',
+        'wxc-cc': '../../packages/@minui/wxc-cc/dist/index',
+        'wxc-elip': '../../packages/@minui/wxc-elip/dist/index'
+      }
+    }
+    components = {}
+
+    mixins = [testMixin]
+
+    data = {
+      types: [
+        'beauty', 'selection', 'disabled',
+        'danger', 'success', 'secondary',
+        'primary', 'info', 'dark', 'warning'
+      ],
+      imgUrls: [
+        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533004176699&di=d1320219f641187727adc713ea74ce04&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F6f061d950a7b02087cb51bf268d9f2d3572cc8a0.jpg ',
+        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533004176699&di=d1320219f641187727adc713ea74ce04&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F6f061d950a7b02087cb51bf268d9f2d3572cc8a0.jpg ',
+        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533004176699&di=d1320219f641187727adc713ea74ce04&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F6f061d950a7b02087cb51bf268d9f2d3572cc8a0.jpg '
+      ],
+      indicatorDots: false,
+      autoplay: false,
+      interval: 5000,
+      duration: 1000,
+      content: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+      line: 3
+    }
+
+    computed = {}
+
+    methods = {
+      showToast() {
+        let $toast = this.$wxpage.selectComponent('.J_toast')
+        $toast && $toast.show()
+      }
+    }
+
+    events = {}
+
+    onLoad() {}
+  }
+</script>
