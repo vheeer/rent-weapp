@@ -7,6 +7,44 @@ image {
 view {
   box-sizing: border-box;
 }
+.face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 999999;
+  top: 0;
+  left: 0;
+  background: rgba(0,0,0,0.7);
+  border: 0;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+}
+.none {
+  position: absolute;
+  width: 0rpx;
+  height: 0rpx;
+  z-index: -999999;
+  overflow: hidden;
+  background: rgba(0,0,0,0);
+  border: 0;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+}
+.zone {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 999999;
+  top: 0;
+  left: 0;
+  background: rgba(0,0,0,0);
+  border: 0;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+}
 </style>
 
 <script>
@@ -45,27 +83,32 @@ export default class extends wepy.app {
       'color': '#666',
       'list': [
         {
-          'pagePath': 'pages/check',
-          'text': '确认'
+          'pagePath': 'pages/index',
+          'text': '首页',
+          'iconPath': './static/image/home.png',
+          'selectedIconPath': './static/image/home.png'
         },
         {
           'pagePath': 'pages/service',
-          'text': '服务'
-        },
-        {
-          'pagePath': 'pages/index',
-          'text': '首页'
-        },
-        {
-          'pagePath': 'pages/order',
-          'text': '订单'
+          'text': '服务',
+          'iconPath': './static/image/service.png',
+          'selectedIconPath': './static/image/service.png'
         },
         {
           'pagePath': 'pages/ucenter/index',
-          'text': '我的'
+          'text': '我的',
+          'iconPath': './static/image/ucenter.png',
+          'selectedIconPath': './static/image/ucenter.png'
         }
       ]
-    }
+    },
+    // 需要修改为Promise形式的wxAPI
+    'promisify': [
+      'scanCode',
+      'switchTab',
+      'navigateTo',
+      'showModal'
+    ]
   }
 
   globalData = {
@@ -78,20 +121,26 @@ export default class extends wepy.app {
   }
 
   onLaunch() {
-    this.testAsync()
-  }
-
-  sleep (s) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve('promise resolved')
-      }, s * 1000)
+    // 函数Promise化
+    this.config['promisify'].forEach(item => {
+      wx[item + 'P'] = this.wxPromisify(wx[item])
     })
   }
 
-  async testAsync () {
-    const data = await this.sleep(3)
-    console.log(data)
+  wxPromisify(fn) {
+    return function (obj = {}) {
+      return new Promise((resolve, reject) => {
+        obj.success = function (...res) {
+          console.log('Promise success 返回参数：', res)
+          resolve(res)
+        }
+        obj.fail = function (...res) {
+          console.warn('Promise fail 返回参数：', res)
+          reject(res)
+        }
+        fn(obj) // 执行函数，obj为传入函数的参数
+      })
+    }
   }
 
   getUserInfo(cb) {

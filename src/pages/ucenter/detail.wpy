@@ -25,11 +25,11 @@
       <wxc-cc>
         <view class="id_box">
           <view class="message">
-            <wxc-input name="real_name" title="姓名" value="李莉"></wxc-input>
-            <wxc-input name="price" title="性别" value="女"></wxc-input>
-            <wxc-input name="price" title="出生日期" value="1990年1月1日"></wxc-input>
-            <wxc-input name="user" title="居住地" value="津南区咸水沽镇红旗路3号"></wxc-input>
-            <wxc-input name="shop" title="店铺" value="津南一号店"></wxc-input>
+            <wxc-input data-type="real_name" title="姓名" value="李莉" bind:input="input"></wxc-input>
+            <wxc-input data-type="gender" title="性别" value="女" bind:input="input"></wxc-input>
+            <wxc-input data-type="birthday" title="出生日期" value="1990年1月1日" bind:input="input"></wxc-input>
+            <wxc-input data-type="home" title="居住地" value="津南区咸水沽镇红旗路3号" bind:input="input"></wxc-input>
+            <wxc-input data-type="shop" title="店铺" value="津南一号店" bind:input="input"></wxc-input>
           </view>
         </view>
       </wxc-cc>
@@ -41,8 +41,8 @@
       <wxc-cc>
         <view class="id_box">
           <view class="message">
-            <wxc-input name="real_name" title="姓名" value="李莉"></wxc-input>
-            <wxc-input name="price" title="所在位置" value="二号楼3层302"></wxc-input>
+            <wxc-input data-type="user_real_name" title="姓名" value="李莉" bind:input="input"></wxc-input>
+            <wxc-input data-type="position" title="所在位置" value="二号楼3层302" bind:input="input"></wxc-input>
           </view>
         </view>
       </wxc-cc>
@@ -51,7 +51,7 @@
     <!-- 开始使用按钮 -->
     <wxc-cc>
       <view class="start">
-        <wxc-button size="large" type="primary">开始使用</wxc-button>
+        <wxc-button size="large" type="primary" bind:click="go">开始使用</wxc-button>
       </view>
     </wxc-cc>
   </view>
@@ -77,13 +77,26 @@
     mixins = []
 
     data = {
-
+      real_name: '',
+      gender: '',
+      birthday: '',
+      home: '',
+      shop: '',
+      user_real_name: '',
+      position: ''
     }
 
     computed = {}
 
     methods = {
-
+      go() {
+        wx.switchTabP({ url: '/pages/index' })
+      },
+      input(e) {
+        const { type } = e.target.dataset;
+        const { value } = e.detail;
+        this[type] = value;
+      }
     }
 
     events = {}

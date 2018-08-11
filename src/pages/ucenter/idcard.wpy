@@ -67,7 +67,7 @@
   <!-- 操作按钮 -->
   <wxc-cc>
     <view class="start">
-      <wxc-button size="large" type="primary">下一步</wxc-button>
+      <wxc-button size="large" type="primary" bind:click="next">下一步</wxc-button>
     </view>
   </wxc-cc>
   <!-- 操作按钮 -->
@@ -97,7 +97,9 @@
     computed = {}
 
     methods = {
-
+      next() {
+        wx.navigateToP({ url: '/pages/ucenter/detail' })
+      }
     }
 
     events = {}

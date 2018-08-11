@@ -10,70 +10,18 @@
   .swiper_box swiper {
     height: 180px;
   }
-  .shop_box {
-    border-bottom: solid 1px #eeeeee;
+  button{
+    display:inline-block;
+    font-size:30rpx;
+    padding:10rpx 20rpx;
+    margin:10rpx;
   }
-  .shop_box .wrap {
-    display: flex;
-    height: 100rpx;
-  }
-  .shop_box .item {
-    font-size: 20rpx;
-  }
-  .shop_box .item.side {
-    width: 150rpx;
-    flex-grow: 0;
-  }
-  .shop_box .item.main {
-    flex-grow: 1;
-    padding: 0 20rpx 0 20rpx;
-    border-right: solid 1px #eeeeee;
-  }
-  .shop_box .button {
-    border: dashed 1px #555555;
-  }
-  .shop_box .button button {
-    border: none;
-  }
-  .shop_box .vtitle {
-    font-weight: bold;
-    font-size: 27rpx;
-  }
-  .shop_box .vcontent {
-    font-size: 25rpx;
-    color: #666666;
-  }
-  .main {
-    padding: 120rpx 0 0 0;
-  }
-  .scan {
-    width: 380rpx;
-    height: 380rpx;
-    border: solid 1px #eeeeee;
-    background-color: white;
-    border-radius: 9999px;
-    text-align: center;
-    font-size: 40rpx;
-    box-shadow:0rpx 0rpx 40rpx -10rpx gray;
-  }
-  .scan image {
-    display: inline-block;
-    margin: 70rpx 0 0 0;
-    width: 155rpx;
-    height: 155rpx;
-  }
-  .price {
-    margin: 20rpx 0 0 0;
-  }
-  .main .notice {
-    padding: 130rpx 0 40rpx 0;
-    font-size: 30rpx;
-  }
-
 </style>
 <template>
+<!--   <login show="1" class="mask">
+  </login> -->
   <!-- 轮播开始 -->
-  <view class="swiper_box">
+  <view class="swiper_box" @tap.stop="showModal">
     <swiper 
       indicator-dots="{{indicatorDots}}"
       autoplay="{{autoplay}}" 
@@ -88,44 +36,20 @@
     </swiper>
   </view>
   <!-- 轮播结束 -->
-  <!-- 当前店铺开始 -->
-  <view class="shop_box">
-    <wxc-flex class="wrap">
-      <view class="item main">
-        <view class="vtitle">天津红桥医院</view>
-        <view class="vcontent">天津市津南区双港镇北马集村东海天馨苑家福原22号一层</view>
-      </view>
-      <view class="item side">
-          <wxc-cc>
-            <wxc-button class="button" size="small" type="dark" plain="true" value="切换"></wxc-button>
-          </wxc-cc>
-      </view>
-    </wxc-flex>
-  </view>
-  <!-- 当前店铺结束 -->
+  <!-- 店铺开始 -->
+  <v-shop />
+  <!-- 店铺结束 -->
   <!-- 主体部分开始 -->
-  <view class="main">
-    <wxc-cc>
-      <view class="scan">
-          <image mode="aspectFill" src="../static/image/scan.png" />
-          <view class="price">
-            扫码租赁
-          </view>
-      </view>
-    </wxc-cc>
-    <wxc-cc>
-      <view class="notice">
-        保护病人财产安全，扫码前请填写信息
-      </view>
-    </wxc-cc>
-  </view>
+  <v-scan :syncUserInfo.sync="userInfo" />
   <!-- 主体部分结束 -->
-
 </template>
 
 <script>
   import wepy from 'wepy'
-  import testMixin from '../mixins/test'
+  import Vscan from '../components/scan'
+  import Vshop from '../components/shop'
+  import Vlogin from '../components/login'
+  import { storage2data } from '../utils/util'
 
   export default class Index extends wepy.page {
     config = {
@@ -138,40 +62,34 @@
         'wxc-elip': '../../packages/@minui/wxc-elip/dist/index'
       }
     }
-    components = {}
+    components = {
+      'v-scan': Vscan,
+      'v-login': Vlogin,
+      'v-shop': Vshop
+    }
 
-    mixins = [testMixin]
+    mixins = []
 
     data = {
-      types: [
-        'beauty', 'selection', 'disabled',
-        'danger', 'success', 'secondary',
-        'primary', 'info', 'dark', 'warning'
-      ],
       imgUrls: [
         '../static/image/dba2bd261ff861386afd05c8e5d502c7.jpg',
         '../static/image/dba2bd261ff861386afd05c8e5d502c7.jpg',
         '../static/image/dba2bd261ff861386afd05c8e5d502c7.jpg'
       ],
-      indicatorDots: false,
-      autoplay: false,
-      interval: 5000,
-      duration: 1000,
-      content: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-      line: 3
+      '__wepy_iviewer_settings': {},
+      userInfo: null
     }
 
     computed = {}
 
-    methods = {
-      showToast() {
-        let $toast = this.$wxpage.selectComponent('.J_toast')
-        $toast && $toast.show()
-      }
-    }
+    methods = {}
 
     events = {}
 
     onLoad() {}
+
+    onShow() {
+      storage2data(this)
+    }
   }
 </script>

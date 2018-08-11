@@ -1,7 +1,7 @@
 {
 	"description": "rent weapp",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": false,
 		"postcss": false,
 		"minified": false,
@@ -28,7 +28,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 6,
+			"current": 2,
 			"list": [
 				{
 					"id": -1,
@@ -43,9 +43,9 @@
 					"query": ""
 				},
 				{
-					"id": -1,
+					"id": 2,
 					"name": "ucenter",
-					"pathName": "pages/ucenter",
+					"pathName": "pages/ucenter/index",
 					"query": ""
 				},
 				{

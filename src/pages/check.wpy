@@ -97,7 +97,7 @@
     <!-- 开始使用按钮 -->
     <wxc-cc>
       <view class="start">
-        <wxc-button size="large" type="primary">开始使用</wxc-button>
+        <wxc-button size="large" type="primary" @tap="start">开始使用</wxc-button>
       </view>
     </wxc-cc>
   </view>
@@ -107,48 +107,34 @@
 
 <script>
   import wepy from 'wepy'
-  import testMixin from '../mixins/test'
 
   export default class Index extends wepy.page {
     config = {
       navigationBarTitleText: 'test',
       usingComponents: {
         'wxc-button': '../../packages/@minui/wxc-button/dist/index',
-        'wxc-panel': '../../packages/@minui/wxc-panel/dist/index',
         'wxc-input': '../../packages/@minui/wxc-input/dist/index',
-        'wxc-cc': '../../packages/@minui/wxc-cc/dist/index',
-        'wxc-elip': '../../packages/@minui/wxc-elip/dist/index'
+        'wxc-cc': '../../packages/@minui/wxc-cc/dist/index'
       }
     }
     components = {}
 
-    mixins = [testMixin]
+    mixins = []
 
     data = {
-      types: [
-        'beauty', 'selection', 'disabled',
-        'danger', 'success', 'secondary',
-        'primary', 'info', 'dark', 'warning'
-      ],
       imgUrls: [
         'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533004176699&di=d1320219f641187727adc713ea74ce04&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F6f061d950a7b02087cb51bf268d9f2d3572cc8a0.jpg ',
         'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533004176699&di=d1320219f641187727adc713ea74ce04&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F6f061d950a7b02087cb51bf268d9f2d3572cc8a0.jpg ',
         'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533004176699&di=d1320219f641187727adc713ea74ce04&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F6f061d950a7b02087cb51bf268d9f2d3572cc8a0.jpg '
-      ],
-      indicatorDots: false,
-      autoplay: false,
-      interval: 5000,
-      duration: 1000,
-      content: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-      line: 3
+      ]
     }
 
     computed = {}
 
     methods = {
-      showToast() {
-        let $toast = this.$wxpage.selectComponent('.J_toast')
-        $toast && $toast.show()
+      async start(e) {
+        const navRes = await wx.switchTabP({ url: '/pages/service' })
+        console.log(navRes)
       }
     }
 

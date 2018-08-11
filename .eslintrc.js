@@ -4,6 +4,7 @@ module.exports = {
   parserOptions: {
     sourceType: 'module'
   },
+  globals: { wx: true },
   env: {
     browser: true
   },
