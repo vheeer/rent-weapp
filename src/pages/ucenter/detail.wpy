@@ -25,11 +25,11 @@
       <wxc-cc>
         <view class="id_box">
           <view class="message">
-            <wxc-input data-type="real_name" title="姓名" value="李莉" bind:input="input"></wxc-input>
-            <wxc-input data-type="gender" title="性别" value="女" bind:input="input"></wxc-input>
-            <wxc-input data-type="birthday" title="出生日期" value="1990年1月1日" bind:input="input"></wxc-input>
-            <wxc-input data-type="home" title="居住地" value="津南区咸水沽镇红旗路3号" bind:input="input"></wxc-input>
-            <wxc-input data-type="shop" title="店铺" value="津南一号店" bind:input="input"></wxc-input>
+            <wxc-input data-type="real_name" title="姓名" value="{{userInfo.real_name}}" bind:input="input"></wxc-input>
+            <wxc-input data-type="gender" title="性别" value="{{userInfo.gender}}" bind:input="input"></wxc-input>
+            <wxc-input data-type="birthday" title="出生日期" value="{{userInfo.birthday}}" bind:input="input"></wxc-input>
+            <wxc-input data-type="address" title="居住地" value="{{userInfo.address}}" bind:input="input"></wxc-input>
+            <wxc-input data-type="shop" title="店铺" value="{{userInfo.shop}}" bind:input="input"></wxc-input>
           </view>
         </view>
       </wxc-cc>
@@ -41,8 +41,8 @@
       <wxc-cc>
         <view class="id_box">
           <view class="message">
-            <wxc-input data-type="user_real_name" title="姓名" value="李莉" bind:input="input"></wxc-input>
-            <wxc-input data-type="position" title="所在位置" value="二号楼3层302" bind:input="input"></wxc-input>
+            <wxc-input data-type="user_real_name" title="姓名" value="{{userInfo.user_real_name}}" bind:input="input"></wxc-input>
+            <wxc-input data-type="position" title="所在位置" value="{{userInfo.position}}" bind:input="input"></wxc-input>
           </view>
         </view>
       </wxc-cc>
@@ -61,6 +61,8 @@
 
 <script>
   import wepy from 'wepy'
+  import { storage2data, request } from '../../utils/util'
+  import config from '../../config/config'
 
   export default class Index extends wepy.page {
     config = {
@@ -77,30 +79,43 @@
     mixins = []
 
     data = {
-      real_name: '',
-      gender: '',
-      birthday: '',
-      home: '',
-      shop: '',
-      user_real_name: '',
-      position: ''
+      userInfo: null,
+      changedFields: {}
     }
 
     computed = {}
 
     methods = {
-      go() {
+      async go() {
+        const requestParams = {
+          id: this.userInfo.id,
+          ...this.changedFields
+        }
+        await request(config.urls.UploadUserDetail, requestParams, 'POST', {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        })
+        const result = await request(config.urls.GetUserInfo, {}, 'GET')
+        wx.setStorageSync('userInfo', result.data);
         wx.switchTabP({ url: '/pages/index' })
       },
       input(e) {
-        const { type } = e.target.dataset;
-        const { value } = e.detail;
-        this[type] = value;
+        const { type } = e.target.dataset
+        const { value } = e.detail
+        this.changedFields[type] = value
       }
     }
 
     events = {}
 
-    onLoad() {}
+    onLoad() {
+      
+    }
+
+    onShow() {
+      const _this = this
+      storage2data(_this)
+      this.userInfo.gender = this.userInfo.gender === 1 ? '男' : (this.userInfo.gender === 2 ? '女' : '未知')
+      this.userInfo.birthday = new Date(this.userInfo.birthday * 1000).Format('yyyy年M月dd日')
+    }
   }
 </script>

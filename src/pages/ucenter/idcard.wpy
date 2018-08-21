@@ -35,11 +35,11 @@
         </wxc-cc>
         <view class="file" >
           <!-- 已上传 -->
-          <view wx:if="{{1}}" class="file_box full" bindtap="changePositive">
-            <image mode="aspectFit" src="https://test-1256171234.cos.ap-beijing.myqcloud.com/timg%20(1).jpg" />
+          <view wx:if="{{positive && positive !== ''}}" class="file_box full" data-type="0" bindtap="changePositive">
+            <image mode="aspectFit" src="{{userInfo.idcard_positive_img_url}}" />
           </view>
           <!-- 未上传 -->
-          <view wx:if="{{0}}" class="file_box empty" bindtap="changePositive">
+          <view wx:if="{{0}}" class="file_box empty" data-type="0" bindtap="changePositive">
             <image mode="aspectFit" src="https://test-1256171234.cos.ap-beijing.myqcloud.com/add.png" />
           </view>
         </view>
@@ -53,11 +53,11 @@
         </wxc-cc>
         <view class="file" >
           <!-- 已上传 -->
-          <view wx:if="{{0}}" class="file_box full" bindtap="changePositive">
-            <image mode="aspectFit" src="https://test-1256171234.cos.ap-beijing.myqcloud.com/timg%20(1).jpg" />
+          <view wx:if="{{opposite && opposite !== ''}}" class="file_box full" data-type="1" bindtap="changePositive">
+            <image mode="aspectFit" src="{{userInfo.idcard_opposite_img_url}}" />
           </view>
           <!-- 未上传 -->
-          <view wx:if="{{1}}" class="file_box empty" bindtap="changePositive">
+          <view wx:else class="file_box empty" data-type="1" bindtap="changePositive">
             <image mode="aspectFit" src="https://test-1256171234.cos.ap-beijing.myqcloud.com/add.png" />
           </view>
         </view>
@@ -75,6 +75,8 @@
 
 <script>
   import wepy from 'wepy'
+  import { urls } from '../../config/config'
+  import { storage2data } from '../../utils/util'
 
   export default class Index extends wepy.page {
     config = {
@@ -91,7 +93,9 @@
     mixins = []
 
     data = {
-
+      userInfo: null,
+      positive: null,
+      opposite: null
     }
 
     computed = {}
@@ -99,11 +103,39 @@
     methods = {
       next() {
         wx.navigateToP({ url: '/pages/ucenter/detail' })
+      },
+      async changePositive(e) {
+        const { type } = e.currentTarget.dataset
+        // 选择图片
+        const chooseImgParams = {
+          count: 1,
+          sizeType: ['original'],
+          sourceType: ['album']
+        }
+        const { tempFilePaths } = await wx.chooseImageP(chooseImgParams)
+        // 上传图片
+        const uploadImgParams = {
+          url: urls.UploadIdCard + '?type=' + type,
+          filePath: tempFilePaths[0],
+          name: 'vheeer',
+          header: {
+            'X-Nideshop-Token': wx.getStorageSync('token')
+          }
+        }
+        const { data } = await wx.uploadFileP(uploadImgParams)
+        console.log(data)
       }
     }
 
     events = {}
 
     onLoad() {}
+
+    onShow() {
+      const _this = this
+      storage2data(_this)
+      _this.positive = _this.userInfo.idcard_positive_img_url
+      _this.opposite = _this.userInfo.idcard_opposite_img_url
+    }
   }
 </script>

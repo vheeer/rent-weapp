@@ -3,7 +3,7 @@
  */
 
 const util = require('../utils/util.js');
-const config = require('../config/config.js');
+const { urls } = require('../config/config.js');
 
 
 /**
@@ -17,7 +17,7 @@ function login() {
       return util.getUserInfo();
     }).then((userInfo) => {
       //登录远程服务器
-      util.request(config.login, { code, userInfo }, 'POST').then(res => {
+      util.request(urls.Login, { code, userInfo }, 'POST').then(res => {
         if (res.errno === 0) {
           //存储用户信息
           wx.setStorageSync('userInfo', res.data.userInfo);
@@ -41,7 +41,7 @@ function login() {
  */
 function getmobile({ iv, encryptedData }) {
   return new Promise((resolve, reject) => {
-    return util.request(config.getmobile, { iv, encryptedData }, 'POST')
+    return util.request(urls.GetMobile, { iv, encryptedData }, 'POST')
     .then(res => {
       if (res.errno === 0) {
         //存储用户信息

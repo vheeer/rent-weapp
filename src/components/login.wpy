@@ -14,7 +14,6 @@
   import wepy from 'wepy'
   import userService from '../service/user'
   export default class Login extends wepy.component {
-
     config = {
       usingComponents: {
         'wxc-mask': '../../packages/@minui/wxc-mask/dist/index'
@@ -30,7 +29,7 @@
         const { userInfo } = e.detail
         wepy.$instance.globalData.userInfo = userInfo
         const loginResult = await userService.login()
-        //使本组件所在的页面更新数据
+        // 使本组件所在的页面更新数据
         if (loginResult.errno === 0) {
           this.$root.onShow()
         }

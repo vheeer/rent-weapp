@@ -14,7 +14,7 @@ view {
   z-index: 999999;
   top: 0;
   left: 0;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.7)
   border: 0;
   margin: 0;
   padding: 0;
@@ -26,7 +26,7 @@ view {
   height: 0rpx;
   z-index: -999999;
   overflow: hidden;
-  background: rgba(0,0,0,0);
+  background: rgba(0,0,0,0)
   border: 0;
   margin: 0;
   padding: 0;
@@ -39,7 +39,7 @@ view {
   z-index: 999999;
   top: 0;
   left: 0;
-  background: rgba(0,0,0,0);
+  background: rgba(0,0,0,0)
   border: 0;
   margin: 0;
   padding: 0;
@@ -107,7 +107,9 @@ export default class extends wepy.app {
       'scanCode',
       'switchTab',
       'navigateTo',
-      'showModal'
+      'showModal',
+      'uploadFile',
+      'chooseImage'
     ]
   }
 
@@ -125,16 +127,96 @@ export default class extends wepy.app {
     this.config['promisify'].forEach(item => {
       wx[item + 'P'] = this.wxPromisify(wx[item])
     })
+    Object.assign(Date.prototype, { Format: this.Format })
+    Object.assign(Date.prototype, { LeftTimer: this.LeftTimer })
+    console.log(Date.prototype)
+  }
+
+  // 日期格式化
+  Format = function(fmt) {
+    const o = {
+      'M+': this.getMonth() + 1,
+      'd+': this.getDate(),
+      'h+': this.getHours(),
+      'm+': this.getMinutes(),
+      's+': this.getSeconds(),
+      'q+': Math.floor((this.getMonth() + 3) / 3),
+      'S': this.getMilliseconds()
+    }
+    if (/(y+)/.test(fmt)) {
+      fmt = fmt.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length))
+    }
+    for (var k in o) {
+      if (new RegExp('(' + k + ')').test(fmt)) {
+        fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)))
+      }
+    }
+    return fmt
+  }
+
+  // 用时
+  LeftTimer = function(timestamp) {
+    // 将0-9的数字前面加上0，例1变为01
+    function checkTime(i) {
+      if (i < 10) {
+        i = '0' + i
+      } else {
+        i = '' + i
+      }
+      return i
+    }
+
+    function isEmpty(x) {
+      if (x === '00') {
+        return true
+      }
+    }
+
+    let days = parseInt(timestamp / 1000 / 60 / 60 / 24, 10) // 计算剩余的天数
+    let hours = parseInt(timestamp / 1000 / 60 / 60 % 24, 10) // 计算剩余的小时
+    let minutes = parseInt(timestamp / 1000 / 60 % 60, 10) // 计算剩余的分钟
+    let seconds = parseInt(timestamp / 1000 % 60, 10) // 计算剩余的秒数
+
+    days = checkTime(days)
+    hours = checkTime(hours)
+    minutes = checkTime(minutes)
+    seconds = checkTime(seconds)
+
+    function checkZero() {
+      if (isEmpty(seconds)) {
+        seconds = '' 
+      } else {
+        seconds += '秒'
+        if (isEmpty(minutes)) {
+          minutes = ''
+        } else {
+          minutes += '分钟'
+          if (isEmpty(hours)) {
+            hours = ''
+          } else {
+            hours += '小时'
+            if (isEmpty(days)) {
+              days = ''
+            } else {
+              days += '天'
+            }
+          }
+        }
+      }
+    }
+    checkZero();
+
+    return `${days}${hours}${minutes}${seconds}`
   }
 
   wxPromisify(fn) {
     return function (obj = {}) {
       return new Promise((resolve, reject) => {
-        obj.success = function (...res) {
+        obj.success = function (res) {
           console.log('Promise success 返回参数：', res)
           resolve(res)
         }
-        obj.fail = function (...res) {
+        obj.fail = function (res) {
           console.warn('Promise fail 返回参数：', res)
           reject(res)
         }

@@ -21,7 +21,16 @@ function formatNumber(n) {
 /**
  * 请求
  */
-function request(url, data = {}, method = "GET") {
+function request(
+  url, 
+  data = {}, 
+  method = "GET", 
+  header = {}
+) {
+  Object.assign(header, {
+    'Content-Type': 'application/json',
+    'X-Nideshop-Token': wx.getStorageSync('token')
+  });
   return new Promise(function (resolve, reject) {
     wx.request({
       url,

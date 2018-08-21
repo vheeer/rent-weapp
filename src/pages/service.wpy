@@ -138,16 +138,16 @@
       <!-- 用时 -->
       <view class="duration">
         <wxc-cc>
-          已使用：2小时17分06秒
+          已使用：{{last}}
         </wxc-cc>
       </view>
       <!-- 订单详情 -->
       <wxc-cc>
         <view class="message">
-          <wxc-input type="goods_sn" title="商品号" value="03280020369"></wxc-input>
-          <wxc-input type="shop" title="所在店铺" value="津南一号店"></wxc-input>
-          <wxc-input type="user" title="使用者" value="使用者"></wxc-input>
-          <wxc-input type="rest" title="剩余时长" value="3天6小时"></wxc-input>
+          <wxc-input type="goods_sn" title="商品号" value="{{goods_sn}}"></wxc-input>
+          <wxc-input type="shop" title="所在店铺" value="{{shop_name}}"></wxc-input>
+          <wxc-input type="user" title="使用者" value="{{userInfo.user_real_name}}"></wxc-input>
+          <wxc-input type="rest" title="剩余时长" value="{{rest}}"></wxc-input>
         </view>
       </wxc-cc>
       <!-- 结束使用 -->
@@ -172,7 +172,8 @@
 
 <script>
   import wepy from 'wepy'
-  import { storage2data } from '../utils/util'
+  import { storage2data, request } from '../utils/util'
+  import { urls } from '../config/config'
   import Vscan from '../components/scan'
   import Vshop from '../components/shop'
 
@@ -197,8 +198,11 @@
 
     data = {
       status: 1, // 1为使用中
+      last: '',
       nickname: '',
       avatar: '',
+      goods_sn: '',
+      shop_name: '',
       userInfo: null
     }
 
@@ -213,9 +217,9 @@
       },
       async refund() {
         const showRes = await wx.showModalP({ title: '提示', content: '您确认要退款吗，押金和余额共231元将同时打款至您的微信零钱' })
-        if (showRes[0].confirm === true) {
+        if (showRes.confirm === true) {
           wx.navigateToP({ url: '/pages/refund_result' })
-        } else if (showRes[0].cancel === true) {
+        } else if (showRes.cancel === true) {
           console.log('取消')
         }
       },
@@ -233,9 +237,31 @@
       this.status = 1
     }
 
-    onShow() {
+    async onShow() {
       const _this = this
       storage2data(_this)
+
+      const { data } = await request(urls.OrderFirst, {}, 'GET')
+
+      // 订单基本信息
+      this.goods_sn = data.goods.goods_sn
+      this.shop_name = data.goods.shop.name
+
+      // restTime
+      const startTime = data.start_time * 1000
+      const now = Date.now()
+
+      let lastTimeStamp = now - startTime
+
+      this.last = Date.prototype.LeftTimer(lastTimeStamp)
+
+      setInterval(() => {
+        lastTimeStamp += 1000
+        _this.last = Date.prototype.LeftTimer(lastTimeStamp)
+        _this.$apply()
+      }, 1000)
+
+      this.$apply()
     }
   }
 </script>

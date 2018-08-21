@@ -88,10 +88,10 @@
     <wxc-cc>
       <!-- 订单详情 -->
       <view class="message">
-        <wxc-input type="order_sn" title="编号" value="02060010588"></wxc-input>
-        <wxc-input type="price" title="单价" value="1元/小时"></wxc-input>
-        <wxc-input type="user" title="使用者" value="使用者"></wxc-input>
-        <wxc-input type="shop" title="店铺" value="津南一号店"></wxc-input>
+        <wxc-input type="order_sn" title="编号" value="{{goods_sn}}"></wxc-input>
+        <wxc-input type="price" title="单价" value="{{price}}元/小时"></wxc-input>
+        <wxc-input type="user" title="使用者" value="{{userInfo.user_real_name}}"></wxc-input>
+        <wxc-input type="shop" title="店铺" value="{{shop_name}}"></wxc-input>
       </view>
     </wxc-cc>
     <!-- 开始使用按钮 -->
@@ -107,6 +107,8 @@
 
 <script>
   import wepy from 'wepy'
+  import { request, storage2data } from '../utils/util'
+  import { urls } from '../config/config'
 
   export default class Index extends wepy.page {
     config = {
@@ -126,13 +128,21 @@
         'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533004176699&di=d1320219f641187727adc713ea74ce04&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F6f061d950a7b02087cb51bf268d9f2d3572cc8a0.jpg ',
         'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533004176699&di=d1320219f641187727adc713ea74ce04&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F6f061d950a7b02087cb51bf268d9f2d3572cc8a0.jpg ',
         'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533004176699&di=d1320219f641187727adc713ea74ce04&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F6f061d950a7b02087cb51bf268d9f2d3572cc8a0.jpg '
-      ]
+      ],
+      price: 0,
+      goods_sn: '',
+      shop_id: 0,
+      shop_name: '',
+      userInfo: null
     }
 
     computed = {}
 
     methods = {
       async start(e) {
+        const { goods_id } = this
+        const result = await request(urls.OrderStart, { goods_id }, 'POST')
+        console.log('请求结果', result)
         const navRes = await wx.switchTabP({ url: '/pages/service' })
         console.log(navRes)
       }
@@ -140,6 +150,25 @@
 
     events = {}
 
-    onLoad() {}
+    async onLoad(options) {
+      const { goods_id } = options
+      const { data } = await request(urls.GoodDetail + '?id=' + goods_id, {}, 'GET')
+
+      console.log(data.shop_name)
+
+      this.goods_id = goods_id
+
+      this.shop_id = data.shop_id
+      this.goods_sn = data.goods_sn
+      this.shop_name = data.shop_name
+      this.price = data.price
+
+      this.$apply()
+    }
+
+    onShow() {
+      const _this = this
+      storage2data(_this)
+    }
   }
 </script>

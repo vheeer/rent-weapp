@@ -14,7 +14,6 @@
   import wepy from 'wepy'
   import userService from '../service/user'
   export default class Getmobile extends wepy.component {
-
     config = {
       usingComponents: {
         'wxc-mask': '../../packages/@minui/wxc-mask/dist/index'
@@ -27,9 +26,9 @@
 
     methods = {
       async getPhoneNumber(e) {
-        const { iv, encryptedData } = e.detail;
+        const { iv, encryptedData } = e.detail
         const getmobileResult = await userService.getmobile({ iv, encryptedData })
-        //使本组件所在的页面更新数据
+        // 使本组件所在的页面更新数据
         if (getmobileResult.errno === 0) {
           this.$root.onShow()
         }
