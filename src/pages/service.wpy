@@ -199,6 +199,7 @@
     data = {
       status: 1, // 1为使用中
       last: '',
+      rest: '',
       nickname: '',
       avatar: '',
       goods_sn: '',
@@ -241,23 +242,47 @@
       const _this = this
       storage2data(_this)
 
+      const getTime = timeStamp => new Date.prototype.LeftTimer(timeStamp).string
+
       const { data } = await request(urls.OrderFirst, {}, 'GET')
+      console.log('订单', data)
 
       // 订单基本信息
       this.goods_sn = data.goods.goods_sn
       this.shop_name = data.goods.shop.name
 
-      // restTime
+      // 持续时间
       const startTime = data.start_time * 1000
       const now = Date.now()
 
       let lastTimeStamp = now - startTime
 
-      this.last = Date.prototype.LeftTimer(lastTimeStamp)
+      this.last = getTime(lastTimeStamp)
+
+      // 剩余时长
+      const { balance, deposit } = this.userInfo
+      const { unit_price, unit } = data
+
+      console.log('unit_price', unit_price)
+      console.log('unit', unit)
+
+      let restTime = 0
+      const totalMoney = parseFloat((balance + deposit).toFixed(2))
+      if (unit === '元每小时') {
+        restTime = (totalMoney / unit_price) * 3600 * 1000
+      } else if (unit === '元每天') {
+
+      }
+
+      this.rest = getTime(restTime)
+
+
 
       setInterval(() => {
         lastTimeStamp += 1000
-        _this.last = Date.prototype.LeftTimer(lastTimeStamp)
+        restTime -= 1000
+        _this.last = getTime(lastTimeStamp)
+        _this.rest = getTime(restTime)
         _this.$apply()
       }, 1000)
 
