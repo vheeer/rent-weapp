@@ -147,6 +147,7 @@
           <wxc-input type="goods_sn" title="商品号" value="{{goods_sn}}"></wxc-input>
           <wxc-input type="shop" title="所在店铺" value="{{shop_name}}"></wxc-input>
           <wxc-input type="user" title="使用者" value="{{userInfo.user_real_name}}"></wxc-input>
+          <wxc-input type="price" title="单价" value="{{unit_price}}{{unit}}"></wxc-input>
           <wxc-input type="rest" title="剩余时长" value="{{rest}}"></wxc-input>
         </view>
       </wxc-cc>
@@ -204,6 +205,8 @@
       avatar: '',
       goods_sn: '',
       shop_name: '',
+      unit_price: '',
+      unit: '',
       userInfo: null
     }
 
@@ -250,6 +253,8 @@
       // 订单基本信息
       this.goods_sn = data.goods.goods_sn
       this.shop_name = data.goods.shop.name
+      this.unit_price = data.unit_price
+      this.unit = data.unit
 
       // 持续时间
       const startTime = data.start_time * 1000
@@ -271,7 +276,7 @@
       if (unit === '元每小时') {
         restTime = (totalMoney / unit_price) * 3600 * 1000
       } else if (unit === '元每天') {
-
+        restTime = (totalMoney / unit_price) * 3600 * 1000
       }
 
       this.rest = getTime(restTime)

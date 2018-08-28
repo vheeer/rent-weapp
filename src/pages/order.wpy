@@ -82,18 +82,18 @@
         <!-- 标题 -->
         <view class="header status">
           <text class="title">进行中：</text>
-          <text class="content">02005021号商品</text>
+          <text class="content">{{onGoingOrder.order_sn}}</text>
         </view>
         <!-- 开始时间 -->
         <view class="header time">
           <text class="title">开始时间：</text>
-          <text class="content">2018年3月5日9时</text>
+          <text class="content">{{onGoingOrder.start_time}}</text>
         </view>
         <!-- 订单详情 -->
         <view class="message">
-          <wxc-input type="order_sn" title="计时" value="2天01小时7分"></wxc-input>
+          <wxc-input type="order_sn" title="计时" value="{{last}}"></wxc-input>
           <wxc-input type="price" title="计费" value="57元"></wxc-input>
-          <wxc-input type="user" title="剩余时长" value="1天09小时22分"></wxc-input>
+          <wxc-input type="user" title="剩余时长" value="{{rest}}"></wxc-input>
         </view>
       </view>
     </wxc-panel>
@@ -258,6 +258,8 @@
 
 <script>
   import wepy from 'wepy'
+  import { storage2data, request } from '../utils/util'
+  import { urls } from '../config/config'
 
   export default class Index extends wepy.page {
     config = {
@@ -274,7 +276,12 @@
     mixins = []
 
     data = {
-
+      onGoingOrder: null,
+      orderList: [],
+      last: '',
+      rest: '',
+      unit_price: '',
+      unit: ''
     }
 
     computed = {}
@@ -286,5 +293,74 @@
     events = {}
 
     onLoad() {}
+
+    async onShow() {
+      const _this = this
+      storage2data(_this)
+
+      const { data: { data } } = await request(urls.OrderList + '?_sort=id desc', {}, 'GET')
+      console.log('所有订单', data)
+
+      // 查看最新订单是否进行中
+      const firstDataItem = data[0]
+
+      if (firstDataItem && firstDataItem['end_time'] === 0) {
+        console.log('订单进行中')
+        this.onGoingOrder = data.shift()
+        this.orderList = data
+      }
+
+      const getTime = timeStamp => new Date.prototype.LeftTimer(timeStamp).string
+
+      // 订单基本信息
+      this.unit_price = firstDataItem.unit_price
+      this.unit = firstDataItem.unit
+
+      // 持续时间
+      const startTime = firstDataItem.start_time * 1000
+      const now = Date.now()
+
+      let lastTimeStamp = now - startTime
+
+      this.last = getTime(lastTimeStamp)
+
+      // 剩余时长
+      const { balance, deposit } = this.userInfo
+      const { unit_price, unit } = firstDataItem
+
+      console.log('unit_price', unit_price)
+      console.log('unit', unit)
+
+      let restTime = 0
+      const totalMoney = parseFloat((balance + deposit).toFixed(2))
+      if (unit === '元每小时') {
+        restTime = (totalMoney / unit_price) * 3600 * 1000
+      } else if (unit === '元每天') {
+        restTime = (totalMoney / unit_price) * 3600 * 1000
+      }
+
+      this.rest = getTime(restTime)
+
+      setInterval(() => {
+        lastTimeStamp += 1000
+        restTime -= 1000
+        _this.last = getTime(lastTimeStamp)
+        _this.rest = getTime(restTime)
+        _this.$apply()
+      }, 1000)
+
+      //计算消费
+      if (unit === '元每小时') {
+        lastTimeStamp / (1000 * 3600)
+      } else if (unit === '元每天') {
+        lastTimeStamp / (1000 * 3600 * 24)
+      }
+      lastTimeStamp
+
+      this.$apply()
+    }
   }
 </script>
+
+
+<!-- 天津市河西区大沽南路与奉化道交口东北侧晶采大厦2-1008 -->
