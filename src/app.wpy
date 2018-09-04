@@ -68,11 +68,12 @@ export default class extends wepy.app {
       'pages/refund_result',
       'pages/ucenter/index',
       'pages/ucenter/detail',
+      'pages/ucenter/test',
       'pages/ucenter/idcard'
     ],
     'window': {
       backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#fff',
+      navigationBarBackgroundColor: '#E92D24',
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'black'
     },

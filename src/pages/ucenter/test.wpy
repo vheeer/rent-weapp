@@ -1,0 +1,312 @@
+<style lang="less">
+page {
+  background-color: #eee;
+  .orange {
+    background-color: rgb(252, 155, 50);;
+  }
+  .pink {
+    background-color: rgb(252, 138, 130);
+  }
+  .rose {
+    background-color: rgb(255, 91, 105);
+  }
+  .green {
+    background-color: rgb(31, 218, 150);
+  }
+  .blue {
+    background-color: rgb(62, 199, 254);
+  }
+  .clear {
+    clear: both;
+  }
+  .head {
+    height: 235rpx;
+    >image {
+      position: absolute;
+      height: 235rpx;
+    }
+    .mes_box {
+      position: relative;
+      padding: 0 25rpx 25rpx 25rpx;
+      .avatar_box {
+        width: 100rpx;
+        height: 100rpx;
+        border-radius: 200rpx;
+        overflow: hidden;
+        float: left;
+        >image {
+          position: relative;
+          display: block;
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .name_box {
+        position: relative;
+        float: left;
+        padding: 10rpx 0 10rpx 20rpx;
+        font-size: 28rpx;
+        .name {
+          color: white;
+          padding: 0 0 13rpx 0;
+          opacity: 0.9;
+        }
+        .join {
+          color: #ddd;
+          background-color: rgba(0, 0, 0, 0.5);
+          border-radius: 100rpx;
+          font-size: 18rpx;
+          width: 204rpx;
+          height: 36rpx;
+          >image, >view {
+            position: relative;
+            margin-top: 5rpx;
+            float: left;
+          }
+          >view {
+            padding: 0 0 0 10rpx;
+            opacity: 0.8;
+          }
+          >image {
+            width: 30rpx;
+          }
+          >.right {
+            float: right;
+            padding: 0 13rpx 0 0;
+          }
+        }
+      }
+    }
+  }
+  .main {
+    position: relative;
+    margin-top: -85rpx;
+    padding: 0 30rpx;
+    z-index: 100;
+    .model {
+      border-radius: 20rpx;
+      background-color: white;
+      margin: 0 0 30rpx 0;
+    }
+    >.m0 {
+      height: 130rpx;
+      .item {
+        position: relative;
+        float: left;
+        padding: 23rpx 0 0 0;
+        width: 33.33%;
+        text-align: center;
+        .number {
+          font-size: 29rpx;
+          color: red;
+        }
+        .text {
+          position: relative;
+          font-size: 24rpx;
+          padding: 9rpx 0 0 0;
+        }
+      }
+    }
+    >.mn {
+      >.top {
+        position: relative;
+        padding: 10rpx;
+        border-bottom: solid 1px #ddd;
+        >image {
+          position: relative;
+          display: block;
+          width: 60rpx;
+          height: 60rpx;
+        }
+        >view {
+          position: absolute;
+          line-height: 20rpx;
+          left: 85rpx;
+          top: 32rpx;
+          font-size: 30rpx;
+        }
+      }
+      >.body {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 25rpx 0;
+        >.item {
+          position: relative;
+          text-align: center;
+          padding: 40rpx 0;
+          width: 173rpx;
+          >.icon_box {
+            padding: 15rpx;
+            margin: 0 auto;
+            width: 75rpx;
+            height: 75rpx;
+            border-radius: 150rpx;
+            overflow: hidden;
+            image {
+
+            }
+          }
+          .text {
+            padding: 15rpx 0 0 0;
+            color: #666;
+            font-size: 25rpx;
+          }
+        }
+        >.first {
+          
+        }
+      }
+    }
+    >.m1 {
+      height: 800rpx;
+    }
+  }
+  .bottom {
+    position: relative;
+    width: 100%;
+    height:50rpx;
+    .content {
+        position: absolute;
+        margin: 0 0 0 -76rpx;
+        left: 50%;
+      .logo {
+        display: inline-block;
+        position: relative;
+        width: 33rpx;
+        top: 6rpx;
+        left: -10rpx;
+      }
+      .text {
+        display: inline;
+        color: #666;
+        font-size: 25rpx;
+      }
+      view {
+
+      }
+    }
+  }
+}
+</style>
+<template>
+  <page>
+    <!-- 头部开始 -->
+    <view class="head">
+      <image src="https://test-1256171234.cos.ap-beijing.myqcloud.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20180831080842.jpg" />
+      <view class="mes_box">
+        <view class="avatar_box">
+          <image src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536237912&di=b83a6dd61304957b1b0ddefddef78f03&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.sccnn.com%2Fbimg%2F338%2F24556.jpg" />
+        </view>
+        <view class="name_box">
+          <view class="name">
+            天津大萍科技有限公司
+          </view>
+          <view class="join">
+            <image mode="widthFix" src="/static/image/hand.png" />
+            <view>加入优选客联盟</view>
+            <view class="right">></view>
+          </view>
+        </view>
+        <view class="clear"></view>
+      </view>
+    </view>
+    <!-- 头部结束 -->
+    <!-- 主体开始 -->
+    <view class="main">
+      <!-- 第零块开始 -->
+      <view class="model m0">
+        <view class="item packet">
+          <view class="number">0.00</view>
+          <view class="text">钱包</view>
+        </view>
+        <view class="item count">
+          <view class="number">0.00</view>
+          <view class="text">佣金</view>
+        </view>
+        <view class="item collect">
+          <view class="number">0</view>
+          <view class="text">队员</view>
+        </view>
+        <view class="clear"></view>
+      </view>
+      <!-- 第零块结束 -->
+      <!-- 第一块开始 -->
+      <view class="model mn m1">
+        <view class="top">
+          <view>我的服务</view>
+          <image mode="aspectFill" src="/static/image/star.png" />
+        </view>
+        <view class="body">
+          <!-- 订单 -->
+          <view class="item">
+            <view class="icon_box orange">
+              <image src="/static/image/board.png" />
+            </view>
+            <view class="text">
+              我的订单
+            </view>
+          </view>
+          <!-- 浏览记录 -->
+          <view class="item">
+            <view class="icon_box pink">
+              <image src="/static/image/histroy.png" />
+            </view>
+            <view class="text">
+              浏览记录
+            </view>
+          </view>
+          <!-- 优选客联盟 -->
+          <view class="item">
+            <view class="icon_box rose">
+              <image src="/static/image/join.png" />
+            </view>
+            <view class="text">
+              优选客联盟
+            </view>
+          </view>
+          <!-- 加群 -->
+          <view class="item">
+            <view class="icon_box green">
+              <image src="/static/image/group.png" />
+            </view>
+            <view class="text">
+              加群
+            </view>
+          </view>
+          <!-- 地址 -->
+          <view class="item first">
+            <view class="icon_box blue">
+              <image src="/static/image/address.png" />
+            </view>
+            <view class="text">
+              地址管理
+            </view>
+          </view>
+        </view>
+      </view>
+      <!-- 第一块结束 -->
+      <!-- 第二块开始 -->
+      <!-- 第二块结束 -->
+      <!-- 第三块开始 -->
+      <!-- 第三块结束 -->
+      <!-- 第四块开始 -->
+      <!-- 第四块结束 -->
+    </view>
+    <!-- 主体结束 -->
+    <view class="bottom">
+      <view class="content">
+        <view class="logo"><image mode="widthFix" src="/static/image/ucenter.png" /></view>
+        <view class="text">优选客联盟</view>
+        <view class="clear"></view>
+      </view>
+    </view>
+  </page>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Index extends wepy.page {
+
+  }
+</script>
