@@ -74,7 +74,8 @@
 
     methods = {
       async scan(e) {
-        await wx.scanCodeP()
+        const scanResult = await wx.scanCodeP()
+        console.log('scanResult', scanResult)
         await wx.navigateToP({ url: '/pages/check' })
       }
     }

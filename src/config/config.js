@@ -15,5 +15,10 @@ module.exports = {
 		OrderStart: url + 'order/start', //生成订单
 		OrderFirst: url + 'order/first', //拉取最新订单
 		OrderList: url + 'order/match', //拉取最新订单
+
+		ShopAll: url + 'shop/getshop', //拉取所有城市代码
+	},
+	qqmap: {
+		key: 'TCCBZ-XUICJ-A6PFE-KL5IQ-PV4E6-BXF6P'
 	}
 };

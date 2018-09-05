@@ -53,6 +53,7 @@ import 'wepy-async-function'
 
 import { setStore } from 'wepy-redux'
 import configStore from './store'
+import QQMapWX from './utils/qqmap-wx-jssdk';
 
 const store = configStore()
 setStore(store)
@@ -109,7 +110,8 @@ export default class extends wepy.app {
       'navigateTo',
       'showModal',
       'uploadFile',
-      'chooseImage'
+      'chooseImage',
+      'getLocation'
     ]
   }
 
@@ -127,9 +129,9 @@ export default class extends wepy.app {
     this.config['promisify'].forEach(item => {
       wx[item + 'P'] = this.wxPromisify(wx[item])
     })
+
     Object.assign(Date.prototype, { Format: this.Format })
     Object.assign(Date.prototype, { LeftTimer: this.LeftTimer })
-    console.log(Date.prototype)
   }
 
   // 日期格式化

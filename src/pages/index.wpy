@@ -37,7 +37,7 @@
   </view>
   <!-- 轮播结束 -->
   <!-- 店铺开始 -->
-  <v-shop />
+  <v-shop :syncShop.sync="shop" />
   <!-- 店铺结束 -->
   <!-- 主体部分开始 -->
   <v-scan :syncUserInfo.sync="userInfo" />
@@ -77,6 +77,7 @@
         '../static/image/dba2bd261ff861386afd05c8e5d502c7.jpg'
       ],
       '__wepy_iviewer_settings': {},
+      shop: {},
       userInfo: null
     }
 
@@ -90,6 +91,18 @@
 
     onShow() {
       storage2data(this)
+      const currentRegion = wx.getStorageSync('currentRegion')
+      const cityShops = wx.getStorageSync('cityShops')
+      const currentShops = wx.getStorageSync('currentShops')
+      const currentShop = wx.getStorageSync('currentShop')
+
+      const shop = {
+        currentRegion,
+        cityShops,
+        currentShops,
+        currentShop
+      }
+      this.shop = shop
     }
   }
 </script>

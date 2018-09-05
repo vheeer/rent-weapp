@@ -130,7 +130,7 @@ function storage2data(_this) {
   }
   if (_this.userInfo && _this.userInfo.id && _this.userInfo.mobile) {
     // 页面已经存在用户信息
-    return;
+    // return;
   }
   _this.userInfo = userInfo
   _this.$apply();

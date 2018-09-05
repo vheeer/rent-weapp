@@ -13,6 +13,8 @@
   .shop_box .item.side {
     width: 150rpx;
     flex-grow: 0;
+    position: relative;
+    padding: 20rpx 20rpx 10rpx 20rpx;
   }
   .shop_box .item.main {
     flex-grow: 1;
@@ -21,6 +23,8 @@
   }
   .shop_box .button {
     border: dashed 1px #555555;
+    padding: 10rpx 5rpx;
+    margin: 0 auto;
   }
   .shop_box .button button {
     border: none;
@@ -43,13 +47,11 @@
   <view class="shop_box">
     <wxc-flex class="wrap">
       <view class="item main">
-        <view class="vtitle">天津红桥医院</view>
-        <view class="vcontent">天津市津南区双港镇北马集村东海天馨苑家福原22号一层</view>
+        <view class="vtitle">{{syncShop.cityShops[syncShop.currentShop]['name']}}</view>
+        <view class="vcontent">{{syncShop.currentRegion[0]}}{{syncShop.currentRegion[1]}}{{syncShop.currentRegion[2]}}{{syncShop.cityShops[syncShop.currentShop]['position']}}</view>
       </view>
       <view class="item side">
-          <wxc-cc>
-            <wxc-button class="button" size="small" type="dark" plain="true" value="切换" @tap="change"></wxc-button>
-          </wxc-cc>
+        <wxc-button class="button" size="small" type="dark" plain="true" value="切换" @tap="change"></wxc-button>
       </view>
     </wxc-flex>
   </view>
@@ -60,15 +62,32 @@
   export default class Shop extends wepy.component {
     props = {}
 
-    data = {}
+    data = {
+      syncShop: {
+        type: Object,
+        default: null
+      },
+      name: '',
+      address: ''
+    }
 
     events = {}
 
     watch = {}
 
+    onShow () {
+      console.log('this', this)
+      console.log('this.syncShop', this.syncShop)
+      console.log('this.data.syncShop', this.data.syncShop)
+    }
+
     methods = {
       async change(e) {
         await wx.switchTabP({ url: '/pages/ucenter/index' })
+        console.log(this.syncShop)
+      },
+      async test() {
+
       }
     }
   }

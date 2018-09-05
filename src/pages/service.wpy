@@ -114,7 +114,7 @@
   </wxc-flex>
   <!-- 头部结束 -->
   <!-- 店铺开始 -->
-  <v-shop />
+  <v-shop :syncShop.sync="shop" />
   <!-- 店铺结束 -->
   <!-- 历史订单开始 -->
   <wxc-list
@@ -207,6 +207,7 @@
       shop_name: '',
       unit_price: '',
       unit: '',
+      shop: {},
       userInfo: null
     }
 
@@ -243,7 +244,19 @@
 
     async onShow() {
       const _this = this
-      storage2data(_this)
+      storage2data(this)
+      const currentRegion = wx.getStorageSync('currentRegion')
+      const cityShops = wx.getStorageSync('cityShops')
+      const currentShops = wx.getStorageSync('currentShops')
+      const currentShop = wx.getStorageSync('currentShop')
+
+      const shop = {
+        currentRegion,
+        cityShops,
+        currentShops,
+        currentShop
+      }
+      this.shop = shop
 
       const getTime = timeStamp => new Date.prototype.LeftTimer(timeStamp).string
 
