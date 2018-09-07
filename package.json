@@ -25,6 +25,7 @@
     "@minui/wxc-flex": "^1.0.6",
     "@minui/wxc-icon": "^1.0.9",
     "@minui/wxc-input": "^1.0.2",
+    "@minui/wxc-label": "^1.0.5",
     "@minui/wxc-list": "^1.0.1",
     "@minui/wxc-loadmore": "^1.0.5",
     "@minui/wxc-mask": "^1.0.8",

@@ -18,6 +18,22 @@ function formatNumber(n) {
   return n[1] ? n : '0' + n
 }
 
+function getParams(q) {
+  try {
+    const link = decodeURIComponent(q)
+    const paramStr = link.split('?')[1]
+    const paramArr = paramStr.split('&')
+    const paramObj = {}
+    paramArr.forEach(item => {
+      const itemObj = item.split('=')
+      paramObj[itemObj[0]] = itemObj[1]
+    })
+    return paramObj
+  } catch (e) {
+    return {}
+  }
+}
+
 /**
  * 请求
  */
@@ -141,5 +157,6 @@ module.exports = {
   request,
   login,
   getUserInfo,
-  storage2data
+  storage2data,
+  getParams
 }

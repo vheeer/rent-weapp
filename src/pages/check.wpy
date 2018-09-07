@@ -88,10 +88,10 @@
     <wxc-cc>
       <!-- 订单详情 -->
       <view class="message">
-        <wxc-input type="order_sn" title="编号" value="{{goods_sn}}"></wxc-input>
-        <wxc-input type="price" title="单价" value="{{price}}元/小时"></wxc-input>
-        <wxc-input type="user" title="使用者" value="{{userInfo.user_real_name}}"></wxc-input>
-        <wxc-input type="shop" title="店铺" value="{{shop_name}}"></wxc-input>
+        <wxc-input disabled="{{true}}" type="order_sn" title="编号" value="{{goods_sn}}"></wxc-input>
+        <wxc-input disabled="{{true}}" type="price" title="单价" value="{{price}}元/小时"></wxc-input>
+        <wxc-input disabled="{{true}}" type="user" title="使用者" value="{{userInfo.user_real_name}}"></wxc-input>
+        <wxc-input disabled="{{true}}" type="shop" title="店铺" value="{{shop_name}}"></wxc-input>
       </view>
     </wxc-cc>
     <!-- 开始使用按钮 -->
@@ -107,7 +107,7 @@
 
 <script>
   import wepy from 'wepy'
-  import { request, storage2data } from '../utils/util'
+  import { request, storage2data, getParams } from '../utils/util'
   import { urls } from '../config/config'
 
   export default class Index extends wepy.page {
@@ -141,20 +141,40 @@
     methods = {
       async start(e) {
         const { goods_id } = this
-        const result = await request(urls.OrderStart, { goods_id }, 'POST')
-        console.log('请求结果', result)
-        const navRes = await wx.switchTabP({ url: '/pages/service' })
-        console.log(navRes)
+
+        const MDres = await wx.showModalP({
+          title: '提示',
+          content: '确认开始计费使用吗？'
+        })
+        const { confirm } = MDres
+        console.log(MDres)
+
+        if (confirm) {
+          const result = await request(urls.OrderStart, { goods_id }, 'POST')
+          console.log('请求结果', result)
+          if (result.errno !== 0) {
+            await wx.showModalP({ title: '提示', content: result.errmsg, showCancel: false })
+          }
+          const navRes = await wx.switchTabP({ url: '/pages/service' })
+
+          console.log(navRes)
+        }
       }
     }
 
     events = {}
 
     async onLoad(options) {
-      const { goods_id } = options
+      console.log('onLoad options: ', options)
+      const { goods_id: goods_id_options, q } = options
+
+      const paramObj = getParams(q)
+      const { goods_id: goods_id_q } = paramObj
+      const goods_id = goods_id_options || goods_id_q // 商品ID
+
       const { data } = await request(urls.GoodDetail + '?id=' + goods_id, {}, 'GET')
 
-      console.log(data.shop_name)
+      console.log(data)
 
       this.goods_id = goods_id
 

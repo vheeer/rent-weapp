@@ -13,6 +13,7 @@ module.exports = {
 		GoodDetail: url + 'goods/find',
 
 		OrderStart: url + 'order/start', //生成订单
+		OrderEnd: url + 'order/end', //结束订单
 		OrderFirst: url + 'order/first', //拉取最新订单
 		OrderList: url + 'order/match', //拉取最新订单
 

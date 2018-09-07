@@ -5,6 +5,7 @@
     height: 100%;
   }
   .list {
+    position: relative;
     padding: 20rpx;
   }
   .list .number {
@@ -13,7 +14,7 @@
     color: orange;
   }
   .list .time {
-    padding: 0 0 0 100rpx;
+    padding: 0 0 0 0rpx;
     font-size: 28rpx;
   }
   .list .bottom {
@@ -73,11 +74,15 @@
     line-height: 27rpx;
     padding: 20rpx 0 0 0;
   }
+  .label {
+    position: absolute;
+    right: 3rpx;
+  }
 </style>
 <template>
   <view class="wrap">
     <!-- 进行中订单开始 -->
-    <wxc-panel>
+    <wxc-panel wx:if="{{onGoingOrder}}">
       <view class="now">
         <!-- 标题 -->
         <view class="header status">
@@ -87,12 +92,12 @@
         <!-- 开始时间 -->
         <view class="header time">
           <text class="title">开始时间：</text>
-          <text class="content">{{onGoingOrder.start_time}}</text>
+          <text class="content">{{start_timeFormat}}</text>
         </view>
         <!-- 订单详情 -->
         <view class="message">
           <wxc-input type="order_sn" title="计时" value="{{last}}"></wxc-input>
-          <wxc-input type="price" title="计费" value="57元"></wxc-input>
+          <wxc-input type="price" title="计费" value="{{consumed}}元"></wxc-input>
           <wxc-input type="user" title="剩余时长" value="{{rest}}"></wxc-input>
         </view>
       </view>
@@ -106,150 +111,30 @@
       </view>
     </wxc-cc>
     <!-- 标题结束 -->
-    <wxc-panel>
-      <view class="list">
-        <view class="number">
-          <text>02005021号商品</text>
-        </view>
-        <view class="time">
-          <text>起止时间：</text><text>2018年3月5日9时~3月7日20时</text>
-        </view>
-        <view class="bottom">
-          <view class="fee">
-            <text>费用：</text><text class="line">57元</text>
+    <block wx:for="{{orderList}}" wx:key="order" wx:for-item="order">
+      <wxc-panel>
+        <view class="list">
+          <view class="number">
+            <wxc-label wx:if="{{order.order_status === 0}}" class="label" type="corner">已完成</wxc-label>
+            <wxc-label wx:if="{{order.order_status === 1}}" class="label" type="corner">待确认</wxc-label>
+            <wxc-label wx:if="{{order.order_status === 2}}" class="label" type="corner">使用中</wxc-label>
+            <wxc-label wx:if="{{order.order_status === 3}}" class="label" type="corner">待关闭</wxc-label>
+            <text>{{order.order_sn}}号商品</text>
           </view>
-          <view class="duration">
-            <text>用时：</text><text class="line">2天01小时7分</text>
+          <view class="time">
+            <text>起止时间：</text><text>{{order.start_time_f}}~{{order.end_time_f}}</text>
           </view>
-        </view>
-      </view>
-    </wxc-panel>
-    <wxc-panel>
-      <view class="list">
-        <view class="number">
-          <text>02005021号商品</text>
-        </view>
-        <view class="time">
-          <text>起止时间：</text><text>2018年3月5日9时~3月7日20时</text>
-        </view>
-        <view class="bottom">
-          <view class="fee">
-            <text>费用：</text><text class="line">57元</text>
-          </view>
-          <view class="duration">
-            <text>用时：</text><text class="line">2天01小时7分</text>
+          <view class="bottom">
+            <view class="fee">
+              <text>费用：</text><text class="line">{{order.actual_price}}元</text>
+            </view>
+            <view class="duration">
+              <text>用时：</text><text class="line">{{order.last}}</text>
+            </view>
           </view>
         </view>
-      </view>
-    </wxc-panel>
-    <wxc-panel>
-      <view class="list">
-        <view class="number">
-          <text>02005021号商品</text>
-        </view>
-        <view class="time">
-          <text>起止时间：</text><text>2018年3月5日9时~3月7日20时</text>
-        </view>
-        <view class="bottom">
-          <view class="fee">
-            <text>费用：</text><text class="line">57元</text>
-          </view>
-          <view class="duration">
-            <text>用时：</text><text class="line">2天01小时7分</text>
-          </view>
-        </view>
-      </view>
-    </wxc-panel>
-    <wxc-panel>
-      <view class="list">
-        <view class="number">
-          <text>02005021号商品</text>
-        </view>
-        <view class="time">
-          <text>起止时间：</text><text>2018年3月5日9时~3月7日20时</text>
-        </view>
-        <view class="bottom">
-          <view class="fee">
-            <text>费用：</text><text class="line">57元</text>
-          </view>
-          <view class="duration">
-            <text>用时：</text><text class="line">2天01小时7分</text>
-          </view>
-        </view>
-      </view>
-    </wxc-panel>
-    <wxc-panel>
-      <view class="list">
-        <view class="number">
-          <text>02005021号商品</text>
-        </view>
-        <view class="time">
-          <text>起止时间：</text><text>2018年3月5日9时~3月7日20时</text>
-        </view>
-        <view class="bottom">
-          <view class="fee">
-            <text>费用：</text><text class="line">57元</text>
-          </view>
-          <view class="duration">
-            <text>用时：</text><text class="line">2天01小时7分</text>
-          </view>
-        </view>
-      </view>
-    </wxc-panel>
-    <wxc-panel>
-      <view class="list">
-        <view class="number">
-          <text>02005021号商品</text>
-        </view>
-        <view class="time">
-          <text>起止时间：</text><text>2018年3月5日9时~3月7日20时</text>
-        </view>
-        <view class="bottom">
-          <view class="fee">
-            <text>费用：</text><text class="line">57元</text>
-          </view>
-          <view class="duration">
-            <text>用时：</text><text class="line">2天01小时7分</text>
-          </view>
-        </view>
-      </view>
-    </wxc-panel>
-    <wxc-panel>
-      <view class="list">
-        <view class="number">
-          <text>02005021号商品</text>
-        </view>
-        <view class="time">
-          <text>起止时间：</text><text>2018年3月5日9时~3月7日20时</text>
-        </view>
-        <view class="bottom">
-          <view class="fee">
-            <text>费用：</text><text class="line">57元</text>
-          </view>
-          <view class="duration">
-            <text>用时：</text><text class="line">2天01小时7分</text>
-          </view>
-        </view>
-      </view>
-    </wxc-panel>
-    <wxc-panel>
-      <view class="list">
-        <view class="number">
-          <text>02005021号商品</text>
-        </view>
-        <view class="time">
-          <text>起止时间：</text><text>2018年3月5日9时~3月7日20时</text>
-        </view>
-        <view class="bottom">
-          <view class="fee">
-            <text>费用：</text><text class="line">57元</text>
-          </view>
-          <view class="duration">
-            <text>用时：</text><text class="line">2天01小时7分</text>
-          </view>
-        </view>
-      </view>
-    </wxc-panel>
+      </wxc-panel>
+    </block>
     <!-- 订单列表结束 -->
   </view>
   <!-- 个人资料结束 -->
@@ -268,7 +153,9 @@
         'wxc-panel': '../../packages/@minui/wxc-panel/dist/index',
         'wxc-input': '../../packages/@minui/wxc-input/dist/index',
         'wxc-cc': '../../packages/@minui/wxc-cc/dist/index',
-        'wxc-loadmore': '../../packages/@minui/wxc-loadmore/dist/index'
+        'wxc-loadmore': '../../packages/@minui/wxc-loadmore/dist/index',
+        'wxc-label': '../../packages/@minui/wxc-label/dist/index',
+        'wxc-icon': '../../packages/@minui/wxc-icon/dist/index'
       }
     }
     components = {}
@@ -281,7 +168,9 @@
       last: '',
       rest: '',
       unit_price: '',
-      unit: ''
+      unit: '',
+      consumed: 0,
+      start_timeFormat: ''
     }
 
     computed = {}
@@ -298,8 +187,28 @@
       const _this = this
       storage2data(_this)
 
+      const getTime = timeStamp => new Date.prototype.LeftTimer(timeStamp).string
+
+      clearInterval(this.timer)
+
       const { data: { data } } = await request(urls.OrderList + '?_sort=id desc', {}, 'GET')
       console.log('所有订单', data)
+
+      this.orderList = data;
+      const now = Date.now()
+
+      // 处理所有订单时间、费用
+      this.orderList.forEach(order => {
+        order.start_time_f =  new Date(order.start_time * 1000).Format('MM月dd日 hh时mm分')
+        order.end_time_f =  new Date(order.end_time * 1000).Format('MM月dd日 hh时mm分')
+        // 持续时间
+        const startTime = order.start_time * 1000
+        const end_time = order.end_time * 1000
+
+        let lastTimeStamp = end_time - startTime
+
+        order.last = new Date.prototype.LeftTimer(lastTimeStamp).string
+      })
 
       // 查看最新订单是否进行中
       const firstDataItem = data[0]
@@ -308,9 +217,8 @@
         console.log('订单进行中')
         this.onGoingOrder = data.shift()
         this.orderList = data
+        this.start_timeFormat = new Date(this.onGoingOrder.start_time * 1000).Format('yy-MM-dd hh:mm')
       }
-
-      const getTime = timeStamp => new Date.prototype.LeftTimer(timeStamp).string
 
       // 订单基本信息
       this.unit_price = firstDataItem.unit_price
@@ -318,7 +226,6 @@
 
       // 持续时间
       const startTime = firstDataItem.start_time * 1000
-      const now = Date.now()
 
       let lastTimeStamp = now - startTime
 
@@ -331,17 +238,23 @@
       console.log('unit_price', unit_price)
       console.log('unit', unit)
 
-      let restTime = 0
+      let allTime = 0
+      let consumed = 0
       const totalMoney = parseFloat((balance + deposit).toFixed(2))
       if (unit === '元每小时') {
-        restTime = (totalMoney / unit_price) * 3600 * 1000
+        allTime = (totalMoney / unit_price) * 3600 * 1000
+        consumed = parseFloat(((lastTimeStamp * unit_price) / (1000 * 3600)).toFixed(2))
       } else if (unit === '元每天') {
-        restTime = (totalMoney / unit_price) * 3600 * 1000
+        allTime = (totalMoney / unit_price) * 24 * 3600 * 1000
+        consumed = parseFloat(((lastTimeStamp * unit_price) / (1000 * 3600 * 24)).toFixed(2))
       }
 
-      this.rest = getTime(restTime)
+      let restTime = allTime - lastTimeStamp
 
-      setInterval(() => {
+      this.rest = getTime(restTime)
+      this.consumed = consumed
+
+      this.timer = setInterval(() => {
         lastTimeStamp += 1000
         restTime -= 1000
         _this.last = getTime(lastTimeStamp)

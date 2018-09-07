@@ -158,6 +158,10 @@ export default class extends wepy.app {
 
   // 用时
   LeftTimer = function(timestamp) {
+    if (!timestamp || typeof timestamp !== 'number' || timestamp < 0) {
+      this.string = '0分钟'
+      return false
+    }
     this.time = {}
     // 将0-9的数字前面加上0，例1变为01
     this.checkTime = function(i) {

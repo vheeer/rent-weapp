@@ -53,6 +53,7 @@
   import wepy from 'wepy'
   import Vlogin from './login'
   import Vgetmobile from './getmobile'
+  import { getParams } from '../utils/util'
   export default class Scan extends wepy.component {
     props = {
       syncUserInfo: {
@@ -75,8 +76,9 @@
     methods = {
       async scan(e) {
         const scanResult = await wx.scanCodeP()
-        console.log('scanResult', scanResult)
-        await wx.navigateToP({ url: '/pages/check' })
+        const { result } = scanResult
+        const parmams = getParams(result)
+        await wx.navigateToP({ url: '/pages/check?goods_id=' + parmams.goods_id })
       }
     }
   }
