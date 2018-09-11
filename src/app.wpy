@@ -53,7 +53,6 @@ import 'wepy-async-function'
 
 import { setStore } from 'wepy-redux'
 import configStore from './store'
-import QQMapWX from './utils/qqmap-wx-jssdk';
 
 const store = configStore()
 setStore(store)

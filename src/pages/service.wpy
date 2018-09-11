@@ -268,8 +268,6 @@
         this.onShow()
       },
       async end(e) {
-        const { goods_id } = this
-
         const MDres = await wx.showModalP({
           title: '提示',
           content: '确认结束使用吗？'
@@ -286,10 +284,45 @@
       orders() {
         wx.navigateToP({ url: '/pages/order' })
       },
+      async recharge() {
+        const res = await request(urls.Recharge, { total_fee: 50000 }, "POST")
+        //发起支付
+        if (res.errno === 0) {
+          let payParam = res.data;
+          wx.requestPayment({
+            'timeStamp': payParam.timeStamp,
+            'nonceStr': payParam.nonceStr,
+            'package': payParam.package,
+            'signType': payParam.signType,
+            'paySign': payParam.paySign,
+            'success': function (res) {
+              console.log("success to requestPayment and res is: ", res);
+              wx.showModal({ 
+                title: '提示', 
+                content: '支付成功', 
+                showCancel: false, 
+                success: function(res) {
+                  let userInfo = wx.getStorageSync('userInfo');
+                  userInfo.is_distributor = 1
+                  wx.setStorageSync('userInfo', userInfo)
+                  if (res.confirm) {
+                    wx.switchTab({
+                      url: '/pages/ucenter/index/index'
+                    })
+                  }
+                }
+              })
+            },
+            'fail': function (res) {
+              console.log("fail to requestPayment and res is: ", res);
+            }
+          })
+        }
+      },
       async refund() {
         const showRes = await wx.showModalP({ title: '提示', content: '您确认要退款吗，押金和余额共231元将同时打款至您的微信零钱' })
         if (showRes.confirm === true) {
-          // wx.navigateToP({ url: '/pages/refund_result' })
+          wx.navigateToP({ url: '/pages/refund_result' })
         } else if (showRes.cancel === true) {
           console.log('取消')
         }
@@ -304,9 +337,7 @@
 
     events = {}
 
-    onLoad() {
-      
-    }
+    onLoad() {}
 
     getShop() {
       const currentRegion = wx.getStorageSync('currentRegion')
