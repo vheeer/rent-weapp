@@ -5,7 +5,6 @@
   }
   .header .wrap {
     position: absolute;
-    height: 200rpx;
     z-index: -1;
     opacity: 0.3;
   }
@@ -93,7 +92,7 @@
     <view class="getLocationShop change btn">
       <wxc-button type="primary" size="small" value="定位" bind:click="bindLocate" />
     </view>
-    <image mode="center" class="wrap" src="https://test-1256171234.cos.ap-beijing.myqcloud.com/timg%20(2).jpg" />
+    <image mode="widthFix" class="wrap" src="https://rent-1256171234.cos.ap-beijing.myqcloud.com/static/bannar.jpg" />
     <!-- 个人资料 -->
     <wxc-flex class="user">
       <view class="item left">
@@ -126,7 +125,7 @@
     <picker bindchange="bindShopChange" value="{{currentShop}}" range="{{currentShops}}">
       <wxc-list
         class="orders"
-        title="所在店铺"
+        title="所在医院"
         src="https://s10.mogucdn.com/mlcdn/c45406/170603_7ida8bdc21j18b91aa2ii3lk38b9i_38x38.png"
       >
         <view class="desc">{{cityShops[currentShop]['name']}}</view>
@@ -163,12 +162,12 @@
     <view class="file">
       <wxc-cc>
         <view class="message">
-          <wxc-input disabled="{{true}}" title="领取人姓名" value="{{userInfo.real_name}}"></wxc-input>
-          <wxc-input disabled="{{true}}" title="性别" value="{{userInfo.gender === 0?'未知':(userInfo.gender === 1?'男':'女')}}"></wxc-input>
-          <wxc-input disabled="{{true}}" title="联系方式" value="{{userInfo.mobile}}"></wxc-input>
-          <wxc-input disabled="{{true}}" title="身份证号" value="{{userInfo.card_id}}"></wxc-input>
-          <wxc-input disabled="{{true}}" title="使用者姓名" value="{{userInfo.user_real_name}}"></wxc-input>
-          <wxc-input disabled="{{true}}" title="使用者位置" value="{{userInfo.position}}"></wxc-input>
+          <wxc-input disabled="{{true}}" title="{{setting.root.weapp[0].pages[0].ucenter[0].columns[0].real_name[0]}}" value="{{userInfo.real_name}}"></wxc-input>
+          <wxc-input disabled="{{true}}" title="{{setting.root.weapp[0].pages[0].ucenter[0].columns[0].gender[0]}}" value="{{userInfo.gender === 0?'未知':(userInfo.gender === 1?'男':'女')}}"></wxc-input>
+          <wxc-input disabled="{{true}}" title="{{setting.root.weapp[0].pages[0].ucenter[0].columns[0].mobile[0]}}" value="{{userInfo.mobile}}"></wxc-input>
+          <wxc-input disabled="{{true}}" title="{{setting.root.weapp[0].pages[0].ucenter[0].columns[0].card_id[0]}}" value="{{userInfo.card_id}}"></wxc-input>
+          <wxc-input disabled="{{true}}" title="{{setting.root.weapp[0].pages[0].ucenter[0].columns[0]['user-real-name'][0]}}" value="{{userInfo.user_real_name}}"></wxc-input>
+          <wxc-input disabled="{{true}}" title="{{setting.root.weapp[0].pages[0].ucenter[0].columns[0]['user-position'][0]}}" value="{{userInfo.position}}"></wxc-input>
         </view>
       </wxc-cc>
     </view>
@@ -190,7 +189,7 @@
   import wepy from 'wepy'
 
   import { request, storage2data } from '../../utils/util'
-  import { urls, qqmap } from '../../config/config'
+  import { urls, qqmap, common } from '../../config/config'
   import QQMapWX from '../../utils/qqmap-wx-jssdk.js'
 
   function getDistance(lat1, lng1, lat2, lng2) {
@@ -232,6 +231,8 @@
       currentShop: 0, // 当前的picker店铺索引
       location: '', // 用户所在的经纬度
       userInfo: null,
+      setting: null,
+      common: {},
       Integrity: 0 // 0资料为空， 1不完善， 2已完善
     }
 
@@ -298,7 +299,6 @@
           currentRegion.city,
           currentRegion.district
         ]
-
         this.getLocalShop(this.currentAdcode)
       } else {
         this.currentAdcode = currentAdcode

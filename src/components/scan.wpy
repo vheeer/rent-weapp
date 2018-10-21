@@ -37,13 +37,13 @@
         <v-login wx:if="{{!syncUserInfo.id}}"></v-login>
         <image mode="aspectFill" src="../static/image/scan.png" />
         <view class="price">
-          扫码租赁
+          {{syncTitle}}
         </view>
       </view>
     </wxc-cc>
     <wxc-cc>
       <view class="notice">
-        保护病人财产安全，扫码前请填写信息
+        {{syncNotice}}
       </view>
     </wxc-cc>
   </view>
@@ -55,10 +55,22 @@
   import Vgetmobile from './getmobile'
   import { getParams } from '../utils/util'
   export default class Scan extends wepy.component {
+    data = {
+      title: ''
+    }
+
     props = {
       syncUserInfo: {
         type: Object,
         default: null
+      },
+      syncTitle: {
+        type: String,
+        default: ''
+      },
+      syncNotice: {
+        type: String,
+        default: ''
       }
     }
 

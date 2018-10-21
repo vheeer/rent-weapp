@@ -1,4 +1,5 @@
 var api = require('../config/config.js');
+const xml2js = require('xml2js');
 
 function formatTime(date) {
   var year = date.getFullYear()
@@ -135,28 +136,47 @@ function getUserInfo() {
   });
 }
 
+
+const xml2jsP = xml => new Promise((resolve, reject) => {
+  xml2js.parseString(xml, (err, result) => {
+    if (err) {
+      reject(err);
+    }
+    resolve(result);
+  });
+})
+
+const sleep = async (duration) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(resolve, duration);
+    });
+};
+
+
 /*
 本地储存的用户信息写入本页面
 */
 function storage2data(_this) {
   const userInfo = wx.getStorageSync('userInfo')
-  if (!userInfo || Object.getOwnPropertyNames(userInfo).length === 0) {
-    // 用户信息不存在或者空对象
-    return;
+  const setting = wx.getStorageSync('setting')
+  if (userInfo && Object.getOwnPropertyNames(userInfo).length !== 0) {
+    // 信息不存在或者空对象
+    _this.userInfo = userInfo
   }
-  if (_this.userInfo && _this.userInfo.id && _this.userInfo.mobile) {
-    // 页面已经存在用户信息
-    // return;
+  if (setting && Object.getOwnPropertyNames(setting).length !== 0) {
+    // 信息不存在或者空对象
+    _this.setting = setting
   }
-  _this.userInfo = userInfo
+  
   _this.$apply();
 }
-
 module.exports = {
   formatTime,
   request,
   login,
   getUserInfo,
   storage2data,
-  getParams
+  getParams,
+  xml2jsP,
+  sleep
 }

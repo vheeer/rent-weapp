@@ -14,7 +14,7 @@ view {
   z-index: 999999;
   top: 0;
   left: 0;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.01);
   border: 0;
   margin: 0;
   padding: 0;
@@ -53,6 +53,9 @@ import 'wepy-async-function'
 
 import { setStore } from 'wepy-redux'
 import configStore from './store'
+import userService from './service/user'
+import { request, xml2jsP } from './utils/util'
+import { urls } from './config/config'
 
 const store = configStore()
 setStore(store)
@@ -123,14 +126,38 @@ export default class extends wepy.app {
     this.use('requestfix')
   }
 
-  onLaunch() {
+  async onLaunch() {
     // 函数Promise化
     this.config['promisify'].forEach(item => {
       wx[item + 'P'] = this.wxPromisify(wx[item])
     })
-
+    
     Object.assign(Date.prototype, { Format: this.Format })
     Object.assign(Date.prototype, { LeftTimer: this.LeftTimer })
+
+    // 如果没有本地存储用户信息，说明不能通过登录功能获取setting，需要在此手动拉取
+    let userInfo = wx.getStorageSync('userInfo')
+    if (!userInfo) {
+      const result = await request(urls.SettingGet, {}, 'GET')
+      const setting = await xml2jsP(result.data)
+      wx.setStorageSync('setting', setting)
+    }
+
+    // 访问计数
+    const times = wx.getStorageSync('times')
+    let times_now;
+    if (!times) {
+      times_now = 1
+    } else {
+      times_now = times + 1
+    }
+    wx.setStorageSync('times', times_now)
+    
+    // 登录
+    const loginResult = await userService.login()
+    console.log('this', this)
+    this.$pages['/pages/index'].onShow()
+    console.log('loginResult', loginResult)
   }
 
   // 日期格式化

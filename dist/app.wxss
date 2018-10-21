@@ -14,7 +14,7 @@ view {
   z-index: 999999;
   top: 0;
   left: 0;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.01);
   border: 0;
   margin: 0;
   padding: 0;

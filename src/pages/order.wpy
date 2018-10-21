@@ -119,7 +119,7 @@
             <wxc-label wx:if="{{order.order_status === 1}}" class="label" type="corner">待确认</wxc-label>
             <wxc-label wx:if="{{order.order_status === 2}}" class="label" type="corner">使用中</wxc-label>
             <wxc-label wx:if="{{order.order_status === 3}}" class="label" type="corner">待关闭</wxc-label>
-            <text>{{order.order_sn}}号商品</text>
+            <text>{{order.order_sn}}号设备</text>
           </view>
           <view class="time">
             <text>起止时间：</text><text>{{order.start_time_f}}~{{order.end_time_f}}</text>

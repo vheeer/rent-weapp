@@ -1,5 +1,5 @@
-// const url = 'http://127.0.0.1:8361/api/';
-const url = 'https://www.dapingkeji.cn/rent-dev/api/';
+const url = 'http://127.0.0.1:8361/api/';
+// const url = 'https://www.dapingkeji.cn/rent-dev/api/';
 
 module.exports = {
 	urls: {
@@ -19,8 +19,14 @@ module.exports = {
 		OrderList: url + 'order/match', //拉取最新订单
 
 		ShopAll: url + 'shop/getshop', //拉取所有城市代码
+
+		SettingGet: url + 'setting/index'
 	},
 	qqmap: {
 		key: 'TCCBZ-XUICJ-A6PFE-KL5IQ-PV4E6-BXF6P'
+	},
+	common: {
+		text_shop: '医院',
+		
 	}
 };

@@ -2,14 +2,26 @@
  * 用户相关服务
  */
 
+const xml2js = require('xml2js');
+// const parseString = require('../utils/xml2js/lib/xml2js.js');
 const util = require('../utils/util.js');
 const { urls } = require('../config/config.js');
+const wepy = require('wepy')
+
+const xml2jsP = xml => new Promise((resolve, reject) => {
+  xml2js.parseString(xml, (err, result) => {
+    if (err) {
+      reject(err);
+    }
+    resolve(result);
+  });
+})
 
 
 /**
  * 调用微信登录
  */
-function login() {
+function login(callback = () => null) {
   let code = null;
   return new Promise(function (resolve, reject) {
     return util.login().then(res => {
@@ -22,6 +34,16 @@ function login() {
           //存储用户信息
           wx.setStorageSync('userInfo', res.data.userInfo);
           wx.setStorageSync('token', res.data.token);
+          xml2jsP(res.data.setting)
+          .then(result => {
+            wx.setStorageSync('setting', result);
+            console.log('setting is: ', result)
+          })
+          .catch(err => {
+            console.log('xml转obj失败', err)
+          })
+
+          callback()
 
           resolve(res);
         } else {

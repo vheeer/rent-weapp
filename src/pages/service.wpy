@@ -21,7 +21,8 @@
   }
   .header {
     background-color: #FFF79A;
-    background-image: url('https://test-1256171234.cos.ap-beijing.myqcloud.com/timg%20(2).jpg');
+    background-image: url('https://rent-1256171234.cos.ap-beijing.myqcloud.com/static/bannar.jpg');
+    background-size: 100% 100%;
     height: 250rpx;
   }
   .header>.item {
@@ -96,6 +97,11 @@
     padding: 15rpx;
     text-align: center;
   }
+  .no_title {
+    text-align: center;
+    color: #666;
+    font-size: 23rpx;
+  }
 </style>
 <template>
   <!-- 头部开始 -->
@@ -149,20 +155,21 @@
     src="https://s10.mogucdn.com/mlcdn/c45406/170603_7ida8bdc21j18b91aa2ii3lk38b9i_38x38.png"
     bind:click="orders"
   >
-    <view wx:if="{{status === 1}}" class="desc-highlight">您有待确认的订单</view>
-    <view wx:if="{{status === 2}}" class="desc-highlight">您有计费中的订单</view>
-    <view wx:if="{{status === 3}}" class="desc-highlight">您有待确认的订单</view>    
+    <view wx:if="{{status === 1}}" class="desc-highlight">{{setting.root.weapp[0].pages[0].service[0]['order-button-text-1'][0]}}</view>
+    <view wx:if="{{status === 2}}" class="desc-highlight">{{setting.root.weapp[0].pages[0].service[0]['order-button-text-2'][0]}}</view>
+    <view wx:if="{{status === 3}}" class="desc-highlight">{{setting.root.weapp[0].pages[0].service[0]['order-button-text-3'][0]}}</view>    
   </wxc-list>
   <!-- 历史订单结束 -->
   <!-- 主体部分开始 -->
   <view class="main">
-    <view wx:if="{{status === 0}}" class="status blue">请扫码用车</view>
-    <view wx:if="{{status === 1}}" class="status yellow">等待工作人员确认使用...<text class="link" bindtap="refresh">刷新</text></view>
-    <view wx:if="{{status === 2}}" class="status green">正在用车...</view>
-    <view wx:if="{{status === 3}}" class="status orange">等待工作人员确认还车...</view>
+    <view wx:if="{{status === 0}}" class="status blue">{{setting.root.weapp[0].pages[0].service[0]['status-0'][0]}}</view>
+    <view wx:if="{{status === 1}}" class="status yellow">{{setting.root.weapp[0].pages[0].service[0]['status-1'][0]}}<text class="link" bindtap="refresh">刷新</text></view>
+    <view wx:if="{{status === 2}}" class="status green">{{setting.root.weapp[0].pages[0].service[0]['status-2'][0]}}</view>
+    <view wx:if="{{status === 3}}" class="status orange">{{setting.root.weapp[0].pages[0].service[0]['status-3'][0]}}</view>
     <!-- 未使用状态开始 -->
     <view wx:if="{{status === 0}}" class="normal">
-      <v-scan :syncUserInfo.sync="userInfo" />
+      <image class="no_data" mode="widthFix" src="{{bks.FOLLOW.image}}" />
+      <view class="no_title">{{setting.root.weapp[0].pages[0].service[0]['status-0-bottom'][0]}}</view>
     </view>
     <!-- 未使用状态结束 -->
     <!-- 等待工作人员确认开始 -->
@@ -170,10 +177,10 @@
       <!-- 订单详情 -->
       <wxc-cc>
         <view class="message">
-          <wxc-input disabled="{{true}}" type="goods_sn" title="商品号" value="{{goods_sn}}"></wxc-input>
-          <wxc-input disabled="{{true}}" type="shop" title="所在店铺" value="{{shop_name}}"></wxc-input>
-          <wxc-input disabled="{{true}}" type="user" title="使用者" value="{{userInfo.user_real_name}}"></wxc-input>
-          <wxc-input disabled="{{true}}" type="price" title="单价" value="{{unit_price}}{{unit}}"></wxc-input>
+          <wxc-input disabled="{{true}}" type="goods_sn" title="{{setting.root.weapp[0].common[0].goods_sn[0]}}" value="{{goods_sn}}"></wxc-input>
+          <wxc-input disabled="{{true}}" type="shop" title="{{setting.root.weapp[0].common[0].shop[0]}}" value="{{shop_name}}"></wxc-input>
+          <wxc-input disabled="{{true}}" type="user" title="{{setting.root.weapp[0].common[0].user[0]}}" value="{{userInfo.user_real_name}}"></wxc-input>
+          <wxc-input disabled="{{true}}" type="price" title="{{setting.root.weapp[0].common[0].price[0]}}" value="{{unit_price}}{{unit}}"></wxc-input>
         </view>
       </wxc-cc>
     </view>
@@ -189,11 +196,11 @@
       <!-- 订单详情 -->
       <wxc-cc>
         <view class="message">
-          <wxc-input disabled="{{true}}" type="goods_sn" title="商品号" value="{{goods_sn}}"></wxc-input>
-          <wxc-input disabled="{{true}}" type="shop" title="所在店铺" value="{{shop_name}}"></wxc-input>
-          <wxc-input disabled="{{true}}" type="user" title="使用者" value="{{userInfo.user_real_name}}"></wxc-input>
-          <wxc-input disabled="{{true}}" type="price" title="单价" value="{{unit_price}}{{unit}}"></wxc-input>
-          <wxc-input disabled="{{true}}" type="rest" title="剩余时长" value="{{rest}}"></wxc-input>
+          <wxc-input disabled="{{true}}" type="goods_sn" title="{{setting.root.weapp[0].common[0].goods_sn[0]}}" value="{{goods_sn}}"></wxc-input>
+          <wxc-input disabled="{{true}}" type="shop" title="{{setting.root.weapp[0].common[0].shop[0]}}" value="{{shop_name}}"></wxc-input>
+          <wxc-input disabled="{{true}}" type="user" title="{{setting.root.weapp[0].common[0].user[0]}}" value="{{userInfo.user_real_name}}"></wxc-input>
+          <wxc-input disabled="{{true}}" type="price" title="{{setting.root.weapp[0].common[0].price[0]}}" value="{{unit_price}}{{unit}}"></wxc-input>
+          <wxc-input disabled="{{true}}" type="rest" title="{{setting.root.weapp[0].common[0].rest[0]}}" value="{{rest}}"></wxc-input>
         </view>
       </wxc-cc>
       <!-- 结束使用 -->
@@ -209,7 +216,7 @@
     <!-- 申请还车开始 -->
     <view wx:if="{{status === 3}}" class="normal">
       <view class="content_mes">
-        工作人员确认还车后方可再次用车
+        {{setting.root.weapp[0].pages[0].service[0]['apply-return-notice'][0]}}
         <text class="link" bindtap="refresh">刷新</text>
       </view>
     </view>
@@ -225,6 +232,7 @@
   import { urls } from '../config/config'
   import Vscan from '../components/scan'
   import Vshop from '../components/shop'
+  var backgrounds = require('../utils/abnor.js');
 
   export default class Index extends wepy.page {
     config = {
@@ -258,7 +266,9 @@
       shop: {},
       timer: null,
       order_id: '',
-      userInfo: null
+      userInfo: null,
+      setting: null,
+      bks: null
     }
 
     computed = {}
@@ -337,7 +347,9 @@
 
     events = {}
 
-    onLoad() {}
+    async onLoad() {
+
+    }
 
     getShop() {
       const currentRegion = wx.getStorageSync('currentRegion')
@@ -354,6 +366,7 @@
     }
 
     async onShow() {
+      this.bks = backgrounds
       const _this = this
       storage2data(this)
       const getTime = timeStamp => new Date.prototype.LeftTimer(timeStamp).string

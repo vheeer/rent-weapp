@@ -40,7 +40,7 @@
   <v-shop :syncShop.sync="shop" />
   <!-- 店铺结束 -->
   <!-- 主体部分开始 -->
-  <v-scan :syncUserInfo.sync="userInfo" />
+  <v-scan :syncUserInfo.sync="userInfo" :syncTitle.sync="scanTitle" :syncNotice.sync="scanNotice" />
   <!-- 主体部分结束 -->
 </template>
 
@@ -49,7 +49,7 @@
   import Vscan from '../components/scan'
   import Vshop from '../components/shop'
   import Vlogin from '../components/login'
-  import { storage2data } from '../utils/util'
+  import { storage2data, sleep } from '../utils/util'
 
   export default class Index extends wepy.page {
     config = {
@@ -78,19 +78,49 @@
       ],
       '__wepy_iviewer_settings': {},
       shop: {},
+      setting: null,
+      scanTitle: '',
+      scanNotice: '',
       userInfo: null
     }
 
     computed = {}
 
-    methods = {}
+    methods = {
+      s2d() {
+
+      storage2data(this)
+      if (this.data.setting) {
+        this.scanTitle = this.data.setting.root.weapp[0].pages[0].index[0].scan[0]
+        this.scanNotice = this.data.setting.root.weapp[0].pages[0].index[0]['scan-notice'][0]
+      }
+
+      this.$apply()
+      }
+    }
 
     events = {}
 
+    storage2data() {
+      storage2data(this)
+      if (this.data.setting) {
+        this.scanTitle = this.data.setting.root.weapp[0].pages[0].index[0].scan[0]
+        this.scanNotice = this.data.setting.root.weapp[0].pages[0].index[0]['scan-notice'][0]
+      }
+
+      this.$apply()
+    }
+
     onLoad() {}
 
-    onShow() {
-      storage2data(this)
+    async onShow() {
+      this.storage2data()
+      while (!this.data.setting) {
+        this.storage2data()
+        console.log('由于网络延迟，未能及时获得setting数据，尝试再次获取')
+        await sleep(0.01)
+      }
+
       const currentRegion = wx.getStorageSync('currentRegion')
       const cityShops = wx.getStorageSync('cityShops')
       const currentShops = wx.getStorageSync('currentShops')
@@ -103,6 +133,8 @@
         currentShop
       }
       this.shop = shop
+
+      this.$apply()
     }
   }
 </script>

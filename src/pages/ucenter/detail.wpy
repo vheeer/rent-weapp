@@ -25,8 +25,8 @@
       <wxc-cc>
         <view class="id_box">
           <view class="message">
-            <wxc-input data-type="real_name" title="姓名" value="{{userInfo.real_name}}" bind:input="input"></wxc-input>
-            <wxc-input data-type="gender" title="性别" value="{{userInfo.gender}}" bind:input="input"></wxc-input>
+            <wxc-input data-type="real_name" title="{{setting.root.weapp[0].pages[0].ucenter[0].columns[0].real_name[0]}}" value="{{userInfo.real_name}}" bind:input="input"></wxc-input>
+            <wxc-input data-type="gender" title="{{setting.root.weapp[0].pages[0].ucenter[0].columns[0].real_name[0]}}" value="{{userInfo.gender}}" bind:input="input"></wxc-input>
             <wxc-input data-type="birthday" title="出生日期" value="{{userInfo.birthday}}" bind:input="input"></wxc-input>
             <wxc-input data-type="address" title="居住地" value="{{userInfo.address}}" bind:input="input"></wxc-input>
             <wxc-input data-type="shop" title="店铺" value="{{currentShopName}}" bind:input="input"></wxc-input>
@@ -41,8 +41,8 @@
       <wxc-cc>
         <view class="id_box">
           <view class="message">
-            <wxc-input data-type="user_real_name" title="姓名" value="{{userInfo.user_real_name}}" bind:input="input"></wxc-input>
-            <wxc-input data-type="position" title="所在位置" value="{{userInfo.position}}" bind:input="input"></wxc-input>
+            <wxc-input data-type="user_real_name" title="{{setting.root.weapp[0].pages[0].ucenter[0].columns[0].real_name[0]}}" value="{{userInfo.user_real_name}}" bind:input="input"></wxc-input>
+            <wxc-input data-type="position" title="{{setting.root.weapp[0].pages[0].ucenter[0].columns[0]['user-position'][0]}}" value="{{userInfo.position}}" bind:input="input"></wxc-input>
           </view>
         </view>
       </wxc-cc>
@@ -80,6 +80,7 @@
 
     data = {
       userInfo: null,
+      setting: null,
       changedFields: {},
       currentShopName: '',
       filedsTouched: false
